@@ -1,0 +1,298 @@
+.sidebar {
+  width: 100%;
+  min-width: 0;
+  position: sticky;
+  top: 16px;
+}
+
+/* ================= QUICK ACTION BUTTONS ================= */
+
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.action-btn {
+  background: linear-gradient(135deg, #0d9ecf, #0077b6);
+  color: #fff;
+  text-decoration: none;
+  min-height: 48px;
+  padding: 15px 18px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 119, 182, 0.25);
+}
+
+.action-btn span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.action-btn:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #0284c7, #005f8f);
+  box-shadow: 0 8px 20px rgba(0, 119, 182, 0.35);
+}
+
+/* ================= SIDEBAR BOX ================= */
+
+.sidebar-box {
+  background: #fff;
+  border-radius: var(--radius-card);
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-card);
+}
+
+.sidebar-box h4 {
+  margin: 0 0 18px;
+  font-size: 19px;
+  color: #003566;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.sidebar-box h4::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 50px;
+  height: 3px;
+
+  background: #0d9ecf;
+  border-radius: 20px;
+}
+
+/* ================= SIDEBAR NAV SECTIONS ================= */
+
+.sidebar-nav-section nav {
+  display: grid;
+  gap: 6px;
+}
+
+.sidebar-nav-section a {
+  display: block;
+  border-radius: 8px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 42px;
+  padding: 10px 12px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-nav-section a:hover {
+  background: #eef7ff;
+  color: #0056b3;
+  transform: translateX(3px);
+}
+
+.sidebar-nav-section a.active {
+  background: #0056b3;
+  color: #fff;
+}
+
+/* ================= METRICS ================= */
+
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.metric-item:last-child {
+  border-bottom: none;
+}
+
+.metric-item span {
+  color: #555;
+  font-size: 14px;
+}
+
+.metric-item strong {
+  color: #003566;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* ================= NEWSLETTER ================= */
+
+.newsletter-box {
+  background: linear-gradient(135deg, #0056b3, #0077cc);
+  color: white;
+  text-align: center;
+}
+
+.newsletter-box h4 {
+  color: white;
+}
+
+.newsletter-box h4::after {
+  background: white;
+}
+
+.newsletter-icon {
+  width: 65px;
+  height: 65px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter-box p {
+  color: #e6eef9;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.newsletter-box input {
+  width: 100%;
+  margin-top: 15px;
+
+  padding: 13px;
+
+  border: none;
+  outline: none;
+  border-radius: 8px;
+
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.newsletter-box button {
+  width: 100%;
+  margin-top: 12px;
+
+  padding: 13px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #ffcc00;
+  color: #222;
+
+  font-weight: 700;
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.newsletter-box button:hover {
+  background: #ffd633;
+  transform: translateY(-2px);
+}
+
+/* ================= TABLET ================= */
+
+@media (max-width: 992px) {
+  .sidebar {
+    width: 100%;
+    position: static;
+  }
+
+  .quick-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .sidebar-box {
+    padding: 18px;
+  }
+
+  .action-btn {
+    padding: 14px 16px;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-box {
+    padding: 18px;
+  }
+
+  .sidebar-box h4 {
+    font-size: 18px;
+  }
+
+  .action-btn {
+    font-size: 14px;
+    padding: 14px 16px;
+  }
+
+  .metric-item {
+    align-items: center;
+  }
+
+  .metric-item strong {
+    text-align: right;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-actions {
+    margin-bottom: 20px;
+  }
+
+  .sidebar-box {
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+  }
+
+  .sidebar-box h4 {
+    font-size: 17px;
+  }
+
+  .action-btn {
+    font-size: 13px;
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .metric-item {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .metric-item strong {
+    text-align: left;
+  }
+
+  .newsletter-box input,
+  .newsletter-box button {
+    font-size: 13px;
+  }
+
+  .newsletter-icon {
+    width: 55px;
+    height: 55px;
+  }
+}

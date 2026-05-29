@@ -1,0 +1,264 @@
+.archives-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--space-page-y) var(--space-page-x);
+  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+}
+
+/* Page Header - full width break-out */
+.page-header {
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  margin: 0 0 28px;
+  padding: clamp(22px, 4vw, 38px);
+  box-sizing: border-box;
+}
+
+.page-header h1 {
+  color: var(--color-heading);
+  font-size: clamp(30px, 3.4vw, 40px);
+  margin: 0 0 8px;
+  font-weight: bold;
+  line-height: 1.25;
+}
+
+.breadcrumb {
+  color: var(--color-muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Intro */
+.archives-intro {
+  margin-bottom: 10px;
+}
+
+.archives-intro p {
+  color: #666;
+  font-size: 15px;
+  margin: 0;
+}
+
+/* Section Title */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.blue-bar {
+  width: 4px;
+  height: 30px;
+  background-color: #0056b3;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.section-title h2 {
+  font-size: clamp(22px, 2vw, 26px);
+  font-weight: bold;
+  margin: 0;
+  color: #222;
+}
+
+/* Year Heading */
+.year-section {
+  margin-bottom: 16px;
+}
+
+.year-heading {
+  background-color: #f0f6ff;
+  color: #0056b3;
+  padding: 10px 20px;
+  border-left: 5px solid #0056b3;
+  font-size: 1.3rem;
+  margin: 36px 0 18px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Grid */
+.volumes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Archive Card */
+.archive-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+  background: #fff;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.article-archive-grid {
+  grid-template-columns: 1fr;
+  margin-top: 24px;
+}
+
+.article-card {
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.archive-abstract {
+  color: #526273;
+  line-height: 1.65;
+  margin: 10px 0 14px;
+}
+
+.archive-meta-grid {
+  background: #f8fbff;
+  border: 1px solid #e5edf6;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 16px 0;
+  padding: 14px;
+}
+
+.archive-meta-grid span {
+  color: #526273;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.archive-empty-state {
+  background: #fff;
+  border: 1px dashed #cbdff4;
+  border-radius: 10px;
+  color: #526273;
+  margin-top: 24px;
+  padding: 22px;
+}
+
+.archive-download-link {
+  display: inline-flex;
+  text-decoration: none;
+}
+
+.archive-card:hover {
+  border-color: #0056b3;
+  box-shadow: 0 4px 16px rgba(0, 86, 179, 0.1);
+  transform: translateY(-3px);
+}
+
+.card-left {
+  flex-shrink: 0;
+}
+
+.folder-icon {
+  font-size: 2.2rem;
+  display: block;
+}
+
+.card-right {
+  min-width: 0;
+  flex: 1;
+}
+
+.card-right h4 {
+  margin: 0 0 4px;
+  color: #333;
+  font-size: 1.05rem;
+  line-height: 1.3;
+}
+
+.issue-name {
+  color: #0056b3;
+  font-weight: 600;
+  margin: 4px 0;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.issue-meta {
+  font-size: 0.82rem;
+  color: #777;
+  margin: 0 0 14px;
+}
+
+.view-btn {
+  background: transparent;
+  color: #0056b3;
+  border: 1px solid #0056b3;
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 13px;
+  transition: 0.25s;
+}
+
+.view-btn:hover {
+  background: #0056b3;
+  color: white;
+}
+
+/* Approved section */
+.approved-section {
+  margin-top: 48px;
+}
+
+/* ======= RESPONSIVE ======= */
+
+@media (max-width: 768px) {
+  .volumes-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .year-heading {
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .archives-container {
+    padding: 28px 14px;
+  }
+
+  .page-header {
+    margin-bottom: 28px;
+  }
+
+  .volumes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .archive-card {
+    padding: 16px;
+  }
+
+  .archive-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .folder-icon {
+    font-size: 1.8rem;
+  }
+
+  .card-right h4 {
+    font-size: 0.95rem;
+  }
+
+  .year-heading {
+    font-size: 1.1rem;
+    margin: 28px 0 14px;
+  }
+
+  .section-title h2 {
+    font-size: 1.2rem;
+  }
+}

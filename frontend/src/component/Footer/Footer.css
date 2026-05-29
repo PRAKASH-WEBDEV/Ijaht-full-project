@@ -1,0 +1,258 @@
+.footer {
+  background: #1a1a1a;
+  color: #bbb;
+  padding: clamp(36px, 5vw, 56px) var(--space-page-x) 18px;
+  font-size: 15px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.2fr) minmax(280px, 1fr) repeat(2, minmax(160px, 0.75fr)) minmax(190px, 0.8fr);
+  gap: clamp(24px, 4vw, 40px);
+  align-items: start;
+}
+
+.footer h4 {
+  color: #fff;
+  margin: 0 0 18px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.footer h4::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: #0056b3;
+  margin-top: 8px;
+}
+
+.footer p {
+  margin: 0 0 8px;
+  line-height: 1.65;
+}
+
+.footer a {
+  display: block;
+  color: #bbb;
+  text-decoration: none;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer a:hover {
+  color: #3ea6ff;
+  transform: translateX(4px);
+}
+
+.footer-logo {
+  margin-bottom: 15px;
+}
+
+.footer-logo img {
+  display: block;
+  width: 108px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.footer-form-section {
+  width: 100%;
+}
+
+.footer-form-section form {
+  display: grid;
+  gap: 12px;
+}
+
+.footer-name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.footer-form-section input,
+.footer-form-section textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #444;
+  background: #222;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.footer-form-section input:focus,
+.footer-form-section textarea:focus {
+  border-color: #3ea6ff;
+  box-shadow: 0 0 0 2px rgba(62, 166, 255, 0.18);
+}
+
+.footer-form-section input::placeholder,
+.footer-form-section textarea::placeholder {
+  color: #999;
+}
+
+.footer-form-section textarea {
+  min-height: 112px;
+  resize: vertical;
+}
+
+.footer-form-status {
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 9px 10px;
+}
+
+.footer-form-status.success {
+  background: rgba(25, 135, 84, 0.15);
+  color: #84d7aa;
+}
+
+.footer-form-status.error {
+  background: rgba(220, 53, 69, 0.15);
+  color: #ff9aa5;
+}
+
+.footer-form-section button {
+  width: 100%;
+  background: #0056b3;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-form-section button:hover {
+  background: #004090;
+}
+
+.footer-form-section button:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.copyright-strip {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid #2f2f2f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.copyright-text {
+  color: #bbb;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.copyright-text span {
+  color: #3ea6ff;
+}
+
+.copyright-social {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.copyright-social a {
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0056b3;
+  color: white;
+  border-radius: 4px;
+  font-size: 13px;
+  transform: none;
+}
+
+.copyright-social a:hover {
+  background: #fff;
+  color: #0056b3;
+  transform: none;
+}
+
+@media (max-width: 1200px) {
+  .footer-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .footer-form-section {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 700px) {
+  .footer {
+    padding-top: 34px;
+    padding-bottom: 16px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .footer-form-section {
+    grid-column: auto;
+    order: -1;
+  }
+
+  .footer-name-row {
+    grid-template-columns: 1fr;
+  }
+
+  .footer h4 {
+    font-size: 16px;
+  }
+
+  .footer p,
+  .footer a,
+  .footer-form-section input,
+  .footer-form-section textarea {
+    font-size: 14px;
+  }
+
+  .footer-logo img {
+    width: 82px;
+  }
+
+  .copyright-strip {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .copyright-social {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 420px) {
+  .footer {
+    padding-inline: 14px;
+  }
+
+  .copyright-strip {
+    text-align: left;
+  }
+}

@@ -1,0 +1,77 @@
+.journal-header {
+  background: #fff;
+  padding: clamp(14px, 2.4vw, 22px) var(--space-page-x);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 3vw, 32px);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.header-logo a {
+  display: inline-flex;
+}
+
+.header-logo img {
+  width: clamp(92px, 10vw, 138px);
+  height: auto;
+  object-fit: contain;
+}
+
+.header-content {
+  text-align: center;
+  flex: 1;
+}
+
+.header-content h1 {
+  margin: 0;
+  color: #0087c8;
+  font-family: "Times New Roman", serif;
+  font-size: clamp(26px, 3.1vw, 38px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.header-content h3 {
+  margin-top: 8px;
+  margin-bottom: 5px;
+  color: #8bb600;
+  font-size: clamp(15px, 1.4vw, 18px);
+  font-weight: 600;
+}
+
+.header-content p {
+  margin: 0;
+  color: #8bb600;
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 600;
+}
+
+/* Tablet */
+
+@media (max-width: 992px) {
+  .journal-header {
+    gap: 20px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .journal-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-content h1 {
+    font-size: 22px;
+  }
+
+  .header-content h3,
+  .header-content p {
+    font-size: 13px;
+  }
+}

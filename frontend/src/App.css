@@ -1,0 +1,79 @@
+:root {
+  --color-primary: #0056b3;
+  --color-primary-dark: #004494;
+  --color-heading: #003566;
+  --color-text: #334155;
+  --color-muted: #64748b;
+  --color-surface: #ffffff;
+  --color-page: #f5f7fb;
+  --border-soft: #e8edf3;
+  --shadow-card: 0 6px 20px rgba(15, 23, 42, 0.05);
+  --radius-card: 12px;
+  --space-page-x: clamp(14px, 5vw, 72px);
+  --space-page-y: clamp(28px, 5vw, 58px);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-text);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+button,
+input,
+textarea,
+select {
+  min-height: 44px;
+}
+
+.App {
+  min-width: 0;
+}
+
+.main-content {
+  min-height: 80vh;
+  background-color: #ffffff;
+}
+
+@media (max-width: 576px) {
+  body {
+    font-size: 15px;
+  }
+}
