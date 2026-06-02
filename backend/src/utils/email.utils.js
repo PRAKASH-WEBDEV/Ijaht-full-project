@@ -1,25 +1,38 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.ADMIN_EMAIL,
-    pass: process.env.ADMIN_EMAIL_PASS,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-const sendEmail = async ({ to, subject, html, attachments }) => {
-  await transporter.sendMail({
-    from: `"Journal Submission" <${process.env.ADMIN_EMAIL}>`,
-    to: to || process.env.ADMIN_EMAIL,
-    subject,
-    html,
-    attachments,
-  });
+const getFromAddress = () => {
+  const emailFrom = process.env.EMAIL_FROM || "journal@ijaht.com";
+
+  return `IJAHT Journal <${emailFrom}>`;
 };
 
-exports.sendEmail = sendEmail;
+const sendEmail = async ({ to, subject, html, attachments }) => {
+  try {
+    const result = await resend.emails.send({
+      from: getFromAddress(),
+      to: to,
+      subject,
+      html,
+      attachments,
+    });
+    console.log("Email sent successfully:", result);
+    return result;
+  } catch (error) {
+    console.error("Email sending failed:", {
+      to,
+      subject,
+      message: error.message,
+      name: error.name,
+      statusCode: error.statusCode,
+      response: error.response,
+    });
+    throw error;
+  }
+};
 
+// Admin ko email
 exports.sendMailToAdmin = async ({ subject, html, attachments }) => {
   return sendEmail({
     to: process.env.ADMIN_EMAIL,
@@ -28,3 +41,14 @@ exports.sendMailToAdmin = async ({ subject, html, attachments }) => {
     attachments,
   });
 };
+
+// User ko email
+exports.sendMailToUser = async ({ userEmail, subject, html }) => {
+  return sendEmail({
+    to: userEmail,
+    subject,
+    html,
+  });
+};
+
+exports.sendEmail = sendEmail;

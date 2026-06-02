@@ -1,7 +1,19 @@
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const User = require("../models/user.model");
 const { generateToken } = require("../utils/token.utils");
 const { sendEmail } = require("../utils/email.utils");
+const { createPasswordResetEmail } = require("../utils/emailTemplates");
+const { frontendUrl } = require("../config/env");
+
+const PASSWORD_RESET_EXPIRY_MINUTES = 15;
+
+const hashResetToken = (token) =>
+  crypto.createHash("sha256").update(token).digest("hex");
+
+const getFrontendResetUrl = (token) => {
+  return `${frontendUrl()}/reset-password?token=${encodeURIComponent(token)}`;
+};
 
 exports.register = async (req, res) => {
   try {
@@ -72,51 +84,131 @@ exports.login = async (req, res) => {
 };
 
 exports.forgotPassword = async (req, res) => {
-  const { email } = req.body;
+  try {
+    const email = String(req.body.email || "").trim().toLowerCase();
+    const adminEmail = String(process.env.ADMIN_EMAIL || "").trim().toLowerCase();
 
-  const user = await User.findOne({ email });
-  if (!user) return res.status(404).json({ message: "User not found" });
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
 
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    if (!adminEmail) {
+      console.error("Forgot password admin email not configured");
+      return res.status(500).json({ message: "Password reset is not configured" });
+    }
 
-  user.forgotPasswordOTP = otp;
-  user.forgotPasswordOTPExpiry = Date.now() + 10 * 60 * 1000; // 10 mins
-  await user.save();
+    const isAdminEmail = email === adminEmail;
 
-  await sendEmail({
-    to: email,
-    subject: "Password Reset OTP",
-    html: `<h3>Your OTP: ${otp}</h3><p>Valid for 10 minutes</p>`,
-  });
+    if (!isAdminEmail) {
+      return res.status(403).json({
+        message: "Password reset is available only for the administrator account.",
+      });
+    }
 
-  res.json({ message: "OTP sent to email" });
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const hashedToken = hashResetToken(resetToken);
+    const resetExpiresAt = new Date(Date.now() + PASSWORD_RESET_EXPIRY_MINUTES * 60 * 1000);
+
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpire = resetExpiresAt;
+    user.forgotPasswordOTP = undefined;
+    user.forgotPasswordOTPExpiry = undefined;
+    await user.save();
+
+    const resetUrl = getFrontendResetUrl(resetToken);
+
+    await sendEmail({
+      to: email,
+      subject: "Reset Your IJHAT Password",
+      html: createPasswordResetEmail({
+        resetUrl,
+        recipientLabel: "IJHAT user account",
+        expiry: `${PASSWORD_RESET_EXPIRY_MINUTES} minutes`,
+      }),
+    });
+
+    res.json({ message: "Password reset link sent to email" });
+  } catch (error) {
+    console.error("Forgot password failed:", {
+      email: req.body?.email,
+      message: error.message,
+      name: error.name,
+      statusCode: error.statusCode,
+      response: error.response,
+    });
+    res.status(500).json({ message: "Password reset request failed" });
+  }
 };
 
-exports.verifyOTP = async (req, res) => {
-  const { email, otp } = req.body;
+exports.validateResetToken = async (req, res) => {
+  try {
+    const { token } = req.body;
 
-  const user = await User.findOne({
-    email,
-    forgotPasswordOTP: otp,
-    forgotPasswordOTPExpiry: { $gt: Date.now() },
-  });
+    if (!token) {
+      return res.status(400).json({ message: "Reset token is required" });
+    }
 
-  if (!user) return res.status(400).json({ message: "Invalid or expired OTP" });
+    const user = await User.findOne({
+      resetPasswordToken: hashResetToken(token),
+      resetPasswordExpire: { $gt: Date.now() },
+    }).select("_id");
 
-  res.json({ message: "OTP verified" });
+    if (!user) {
+      return res.status(400).json({ message: "Reset link is invalid or expired" });
+    }
+
+    return res.json({ message: "Reset token is valid" });
+  } catch (error) {
+    console.error("Validate reset token failed:", {
+      message: error.message,
+      name: error.name,
+    });
+    return res.status(500).json({ message: "Reset token validation failed" });
+  }
 };
 
 exports.resetPassword = async (req, res) => {
-  const { email, newPassword } = req.body;
+  try {
+    const { token } = req.body;
+    const newPassword = req.body.newPassword || req.body.password;
 
-  const user = await User.findOne({ email });
-  if (!user) return res.status(404).json({ message: "User not found" });
+    if (!token) {
+      return res.status(400).json({ message: "Reset token is required" });
+    }
 
-  user.password = await bcrypt.hash(newPassword, 12);
-  user.forgotPasswordOTP = undefined;
-  user.forgotPasswordOTPExpiry = undefined;
+    if (!newPassword) {
+      return res.status(400).json({ message: "New password is required" });
+    }
 
-  await user.save();
+    const hashedToken = hashResetToken(token);
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
 
-  res.json({ message: "Password reset successful" });
+    if (!user) {
+      return res.status(400).json({ message: "Reset link is invalid or expired" });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 12);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    user.forgotPasswordOTP = undefined;
+    user.forgotPasswordOTPExpiry = undefined;
+
+    await user.save();
+
+    res.json({ message: "Password reset successful" });
+  } catch (error) {
+    console.error("Reset password failed:", {
+      message: error.message,
+      name: error.name,
+    });
+    res.status(500).json({ message: "Password reset failed" });
+  }
 };

@@ -1,16 +1,54 @@
+const fs = require("fs/promises");
 const Manuscript = require("../models/manuscript.model");
+const { publicArchiveUrl } = require("../config/env");
 const { sendEmail, sendMailToAdmin } = require("../utils/email.utils");
 const {
-  createAdminNotificationEmail,
-  createUserThankYouEmail,
+  createManuscriptAcceptedEmail,
+  createManuscriptRejectedEmail,
+  getAdminNotificationTemplate,
+  getUserThankYouTemplate,
 } = require("../utils/emailTemplates");
-const path = require("path");
+
+const manuscriptMimeTypes = new Set([
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]);
+
+const createManuscriptAttachment = async (file) => {
+  if (!file || !manuscriptMimeTypes.has(file.mimetype)) {
+    throw new Error("Invalid manuscript file type. Only PDF, DOC, and DOCX files are allowed.");
+  }
+
+  const fileBuffer = file.buffer || (await fs.readFile(file.path));
+  const filename = file.originalname || file.filename;
+
+  console.log("Admin manuscript attachment:", {
+    filename,
+    sizeBytes: fileBuffer.length,
+    mimetype: file.mimetype,
+  });
+
+  return {
+    filename,
+    content: fileBuffer.toString("base64"),
+  };
+};
 
 exports.submitManuscript = async (req, res) => {
   console.log("Submit Api call");
 
   try {
-    const { articleTitle, authorName, email, address, abstract } = req.body;
+    const {
+      articleTitle,
+      authorName,
+      email,
+      address,
+      abstract,
+      phone = "",
+      country = "",
+      institution = "",
+    } = req.body;
     const file = req.file;
     const submissionDate = new Date().toLocaleString("en-IN", {
       dateStyle: "medium",
@@ -26,6 +64,10 @@ exports.submitManuscript = async (req, res) => {
       return res.status(400).json({ message: "Manuscript file required" });
     }
 
+    if (!manuscriptMimeTypes.has(file.mimetype)) {
+      return res.status(400).json({ message: "Only PDF, DOC, and DOCX manuscript files are allowed" });
+    }
+
     const manuscript = await Manuscript.create({
       articleTitle,
       authorName,
@@ -35,50 +77,42 @@ exports.submitManuscript = async (req, res) => {
       status: "pending",
       manuscriptFile: {
         filename: file.originalname,
-        path: file.path,
+        path: `uploads/${file.filename}`,
         mimetype: file.mimetype,
       },
     });
 
-    const logoPath = path.join(__dirname, "../../../frontend/src/assets/logo.png");
-    const logoAttachment = {
-      filename: "logo.png",
-      path: logoPath,
-      cid: "ijhat-logo",
+    const formData = {
+      ...req.body,
+      fullName: authorName,
+      email,
+      phone,
+      country,
+      institution,
+      subject: articleTitle,
+      articleTitle,
+      address,
+      abstract,
+      manuscriptFile: file.originalname,
+      submissionDate,
+      ipAddress,
     };
 
-    await Promise.all([
-      sendEmail({
+    if (process.env.SEND_USER_CONFIRMATION !== "false") {
+      await sendEmail({
         to: email,
-        subject: "Thank You for Contacting IJHAT",
-        html: createUserThankYouEmail({
-          firstName: authorName?.split(" ")[0] || authorName,
-          fullName: authorName,
-          email,
-          subject: articleTitle,
-        }),
-        attachments: [logoAttachment],
-      }),
-      sendMailToAdmin({
-        subject: "New Form Submission Received",
-        html: createAdminNotificationEmail({
-          fullName: authorName,
-          email,
-          subject: articleTitle,
-          message: abstract,
-          date: submissionDate,
-          ipAddress,
-          viewUrl: process.env.ADMIN_SUBMISSIONS_URL || "http://localhost:8000",
-        }),
-        attachments: [
-          logoAttachment,
-          {
-            filename: file.originalname,
-            path: file.path,
-          },
-        ],
-      }),
-    ]);
+        subject: "Thank You For Your Submission",
+        html: getUserThankYouTemplate(formData),
+      });
+    }
+
+    const manuscriptAttachment = await createManuscriptAttachment(file);
+
+    await sendMailToAdmin({
+      subject: "New Submission Received",
+      html: getAdminNotificationTemplate(formData),
+      attachments: [manuscriptAttachment],
+    });
 
     manuscript.emailSent = true;
     await manuscript.save();
@@ -122,17 +156,17 @@ exports.approveManuscript = async (req, res) => {
         .slice(-6)}`;
     await manuscript.save();
 
-    // send email to author
     await sendEmail({
       to: manuscript.email,
-      subject: "Your Manuscript Has Been Approved",
-      html: `
-        <h2>Manuscript Approved</h2>
-        <p>Hello ${manuscript.authorName},</p>
-        <p>Your manuscript titled <b>${manuscript.articleTitle}</b> has been approved by the editor.</p>
-        <p>Thank you for submitting your research to our journal.</p>
-        <p>You can see your manuscript in Archieve Page</p>
-      `,
+      subject: "IJHAT Manuscript Accepted",
+      html: createManuscriptAcceptedEmail({
+        authorName: manuscript.authorName,
+        articleTitle: manuscript.articleTitle,
+        doi: manuscript.doi,
+        volume: manuscript.volume,
+        issueNumber: manuscript.issueNumber,
+        archiveUrl: publicArchiveUrl(),
+      }),
     });
 
     res.json({ message: "Manuscript approved and author notified" });
@@ -156,14 +190,12 @@ exports.rejectManuscript = async (req, res) => {
 
     await sendEmail({
       to: manuscript.email,
-      subject: "Manuscript Rejected",
-      html: `
-        <h2>Your manuscript was rejected</h2>
-        <p><b>Title:</b> ${manuscript.articleTitle}</p>
-        <p>Unfortunately your manuscript was not accepted.</p>
-        ${manuscript.rejectionReason ? `<p><b>Reason:</b> ${manuscript.rejectionReason}</p>` : ""}
-        <p>Thankyou for using our services. Please keep uploading</p>
-      `,
+      subject: "IJHAT Manuscript Decision",
+      html: createManuscriptRejectedEmail({
+        authorName: manuscript.authorName,
+        articleTitle: manuscript.articleTitle,
+        reason: manuscript.rejectionReason,
+      }),
     });
 
     res.json({ message: "Rejected successfully" });
