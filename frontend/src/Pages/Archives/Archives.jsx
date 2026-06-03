@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./Archives.css";
-
-const API_URL = "http://localhost:3000";
+import { api, assetUrl } from "../../config/api";
 
 const formatDate = (date) =>
   date
@@ -18,8 +16,8 @@ const Archives = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`${API_URL}/api/manuscript/archive`)
+    api
+      .get("/api/manuscript/archive")
       .then((res) => setPapers(Array.isArray(res.data) ? res.data : []))
       .catch((err) => console.error("Archive fetch error:", err))
       .finally(() => setLoading(false));
@@ -79,7 +77,7 @@ const Archives = () => {
 
                   {paper.manuscriptFile?.path && (
                     <a
-                      href={`${API_URL}/${paper.manuscriptFile.path}`}
+                      href={assetUrl(paper.manuscriptFile.path)}
                       target="_blank"
                       rel="noreferrer"
                       download

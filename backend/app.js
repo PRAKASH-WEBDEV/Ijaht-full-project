@@ -1,15 +1,21 @@
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
 
 const authRoutes = require("./src/routes/auth.routes");
 const adminRoutes = require("./src/routes/admin.routes");
 const userRoutes = require("./src/routes/user.routes");
-const { getCorsOrigins } = require("./src/config/env");
 const app = express();
 
-const allowedOrigins = getCorsOrigins();
-const uploadsDir = path.resolve(__dirname, "uploads");
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "http://localhost:5174",
+  "http://127.0.0.1:5174",
+  "http://localhost:8000", // ← Admin ke liye add karo
+  "http://127.0.0.1:8000",
+  "https://ijaht.com",
+  "https://www.ijaht.com", // ← yeh bhi
+];
 
 const corsOptions = {
   origin(origin, callback) {
@@ -17,7 +23,7 @@ const corsOptions = {
       return callback(null, true);
     }
 
-    return callback(null, false);
+    return callback(new Error("Not allowed by CORS"));
   },
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
@@ -39,28 +45,6 @@ app.use("/api/newsletter", require("./src/routes/newsletter.routes"));
 app.use("/api/manuscript", require("./src/routes/manuscript.routes"));
 
 // Uploaded files
-app.use(
-  "/uploads",
-  express.static(uploadsDir, {
-    fallthrough: false,
-    index: false,
-  })
-);
-
-app.use((err, req, res, next) => {
-  if (res.headersSent) {
-    return next(err);
-  }
-
-  console.error("Unhandled API error:", {
-    method: req.method,
-    path: req.originalUrl,
-    message: err.message,
-  });
-
-  return res.status(err.status || 500).json({
-    message: process.env.NODE_ENV === "production" ? "Internal server error" : err.message,
-  });
-});
+app.use("/uploads", express.static("uploads"));
 
 module.exports = app;

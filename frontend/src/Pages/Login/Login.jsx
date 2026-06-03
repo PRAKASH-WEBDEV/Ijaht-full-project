@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./Login.css";
-import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Redirect ke liye import karein
 import { toast } from "react-toastify";
+import { Eye, EyeOff } from "lucide-react";
+import { api } from "../../config/api";
 
 const LoginPopup = ({ isOpen, onClose, onRegisterClick, onForgotPasswordClick }) => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const LoginPopup = ({ isOpen, onClose, onRegisterClick, onForgotPasswordClick })
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate(); // navigate function initialize karein
 
   if (!isOpen) return null;
@@ -29,10 +31,7 @@ const LoginPopup = ({ isOpen, onClose, onRegisterClick, onForgotPasswordClick })
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        formData
-      );
+      const res = await api.post("/api/auth/login", formData);
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -74,13 +73,23 @@ const LoginPopup = ({ isOpen, onClose, onRegisterClick, onForgotPasswordClick })
 
           <div className="input-group">
             <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              required
-              onChange={handleChange}
-            />
+            <div className="password-field">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="••••••••"
+                required
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword((visible) => !visible)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <div className="form-options">

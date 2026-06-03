@@ -1,42 +1,90 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./Login.css";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { api } from "../../config/api";
+
+const getTokenError = (err) => {
+  const message = err?.response?.data?.message || "";
+
+  if (message.toLowerCase().includes("expired")) {
+    return "Expired token";
+  }
+
+  return "Invalid token";
+};
 
 const ResetPassword = () => {
-  const { token } = useParams();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+  const [validating, setValidating] = useState(true);
+  const [isTokenValid, setIsTokenValid] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const validatedToken = useRef("");
+
+  useEffect(() => {
+    const validateToken = async () => {
+      if (validatedToken.current === token) return;
+      validatedToken.current = token;
+      setError("");
+      setIsTokenValid(false);
+      setValidating(true);
+
+      if (!token) {
+        setError("Invalid token");
+        toast.error("Invalid token");
+        setValidating(false);
+        return;
+      }
+
+      try {
+        await api.post("/api/admin/validate-reset-token", { token });
+        setIsTokenValid(true);
+      } catch (err) {
+        const message = getTokenError(err);
+        setError(message);
+        toast.error(message);
+      } finally {
+        setValidating(false);
+      }
+    };
+
+    validateToken();
+  }, [token]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
-    setMessage("");
+
+    if (!token || !isTokenValid) {
+      setError("Invalid token");
+      toast.error("Invalid token");
+      return;
+    }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError("Password mismatch");
+      toast.error("Password mismatch");
       return;
     }
 
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        `http://localhost:3000/api/admin/reset-password/${token}`,
-        { password }
-      );
-
-      setMessage(res.data.message || "Password reset successfully.");
-
-      setTimeout(() => {
-        navigate("/");
-      }, 1600);
+      await api.post("/api/admin/reset-password", { token, password });
+      toast.success("Password reset successfully.");
+      navigate("/admin");
     } catch (err) {
-      setError(err.response?.data?.message || "Password reset failed.");
+      const message = getTokenError(err);
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -51,36 +99,61 @@ const ResetPassword = () => {
             <p>Create a new IJHAT admin dashboard password</p>
           </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <input
-                type="password"
-                placeholder="New password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                minLength="6"
-                required
-              />
-            </div>
+          {validating && <div className="login-success">Validating reset link...</div>}
 
-            <div className="form-group">
-              <input
-                type="password"
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                minLength="6"
-                required
-              />
-            </div>
+          {!validating && error && <div className="login-error">{error}</div>}
 
-            {error && <div className="login-error">{error}</div>}
-            {message && <div className="login-success">{message}</div>}
+          {!validating && isTokenValid && (
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <div className="password-field">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="New Password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    minLength="6"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword((visible) => !visible)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
+              </div>
 
-            <button type="submit" className="login-btn" disabled={loading}>
-              {loading ? "Resetting..." : "Reset Password"}
-            </button>
-          </form>
+              <div className="form-group">
+                <div className="password-field">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    minLength="6"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowConfirmPassword((visible) => !visible)}
+                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                  >
+                    {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
+              </div>
+
+              {error && <div className="login-error">{error}</div>}
+
+              <button type="submit" className="login-btn" disabled={loading}>
+                {loading ? "Resetting..." : "Reset Password"}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaTwitter } from "react-icons/fa";
-import footerLogo from "../../assets/logo.png";
+import footerLogo from "../../assets/main-logo.png";
 import "./Footer.css";
 import copyrightFormPdf from "../../assets/copyright-pdf.pdf";
 import subscriptionFormPdf from "../../assets/Subscription -pdf.pdf";
+import { apiFetch } from "../../config/api";
 
 const authorLinks = [
   { title: "Submit Manuscript", path: "/submit-manuscript" },
@@ -55,7 +56,7 @@ const Footer = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:3000/api/contact", {
+      const response = await apiFetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

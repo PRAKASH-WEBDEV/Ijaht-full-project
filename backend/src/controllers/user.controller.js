@@ -57,7 +57,9 @@ exports.uploadAvatar = async (req, res) => {
 
     const user = await User.findById(req.user.id);
 
-    user.avatar = `uploads/${req.file.filename}`;
+    // 2. Fix Windows path issue: Convert backslashes to forward slashes
+    const normalizedPath = req.file.path.replace(/\\/g, "/");
+    user.avatar = normalizedPath;
 
     await user.save();
 

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "./Login.css";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { api } from "../../config/api";
 
 const Login = () => {
 
@@ -11,6 +12,7 @@ const Login = () => {
   const [message,setMessage] = useState("");
   const [mode,setMode] = useState("login");
   const [loading,setLoading] = useState(false);
+  const [showPassword,setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,10 +24,7 @@ const Login = () => {
 
     try{
 
-      const res = await axios.post(
-        "http://localhost:3000/api/admin/login",
-        { email,password }
-      );
+      const res = await api.post("/api/admin/login", { email,password });
 
       if(res.data.token){
 
@@ -35,7 +34,7 @@ const Login = () => {
 
       }
 
-    }catch(err){
+    }catch{
 
       setError("Invalid Email or Password. Access Denied.");
 
@@ -55,10 +54,7 @@ const Login = () => {
 
     try{
 
-      const res = await axios.post(
-        "http://localhost:3000/api/admin/forgot-password",
-        { email }
-      );
+      const res = await api.post("/api/admin/forgot-password", { email });
 
       setMessage(res.data.message || "Password reset link sent if the email exists.");
 
@@ -105,13 +101,23 @@ const Login = () => {
 
             {mode === "login" && <div className="form-group">
 
-              <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e)=>setPassword(e.target.value)}
-              required
-              />
+              <div className="password-field">
+                <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
+                required
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((visible) => !visible)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <FiEyeOff /> : <FiEye />}
+                </button>
+              </div>
 
             </div>}
 

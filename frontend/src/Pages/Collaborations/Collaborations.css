@@ -1,0 +1,54 @@
+.collaboration-partners {
+  margin: 34px 0 0;
+  padding-top: 28px;
+  border-top: 1px solid #e7edf5;
+  text-align: center;
+}
+
+.journal-prose .collaboration-partners h2 {
+  border-left: 0;
+  color: #003566;
+  font-size: clamp(22px, 2vw, 26px);
+  margin: 0 0 22px;
+  padding-left: 0;
+}
+
+.collaboration-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: clamp(18px, 3vw, 28px);
+  align-items: center;
+  justify-content: center;
+}
+
+.collaboration-logo-card {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(18px, 3vw, 26px);
+  background: #f7fbff;
+  border: 1px solid #dceafe;
+  border-radius: 10px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.collaboration-logo-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 24px rgba(0, 53, 102, 0.12);
+}
+
+.collaboration-logo-card img {
+  display: block;
+  max-width: 100%;
+  max-height: 118px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .collaboration-logo-grid {
+    grid-template-columns: 1fr;
+  }
+}

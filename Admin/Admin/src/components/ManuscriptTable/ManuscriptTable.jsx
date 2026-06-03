@@ -1,10 +1,9 @@
 import React from "react";
 import StatusBadge from "../StatusBadge/StatusBadge";
 import "./ManuscriptTable.css";
+import { assetUrl } from "../../config/api";
 
 export default function ManuscriptTable({ data, onApprove, onDelete, onReject }) {
-
-  const BACKEND_URL = "http://localhost:3000";
 
   const handleReject = (id) => {
 
@@ -55,7 +54,7 @@ export default function ManuscriptTable({ data, onApprove, onDelete, onReject })
                 <td>
 
                   <a
-                    href={`${BACKEND_URL}/${item.manuscriptFile?.path}`}
+                    href={assetUrl(item.manuscriptFile?.path)}
                     target="_blank"
                     rel="noreferrer"
                     className="file-link"

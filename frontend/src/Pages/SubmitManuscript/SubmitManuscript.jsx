@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { UploadCloud, FileText, ShieldCheck, ClipboardCheck } from "lucide-react";
 import { toast } from "react-toastify";
 import "./SubmitManuscript.css";
+import { api } from "../../config/api";
 
 const initialForm = {
   title: "",
@@ -51,7 +51,7 @@ const SubmitManuscript = () => {
       data.append("abstract", formData.abstract);
       data.append("manuscript", formData.manuscriptFile);
 
-      await axios.post("http://localhost:3000/api/manuscript/submit", data, {
+      await api.post("/api/manuscript/submit", data, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${userToken}`,

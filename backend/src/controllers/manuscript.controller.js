@@ -1,6 +1,5 @@
 const fs = require("fs/promises");
 const Manuscript = require("../models/manuscript.model");
-const { publicArchiveUrl } = require("../config/env");
 const { sendEmail, sendMailToAdmin } = require("../utils/email.utils");
 const {
   createManuscriptAcceptedEmail,
@@ -77,7 +76,7 @@ exports.submitManuscript = async (req, res) => {
       status: "pending",
       manuscriptFile: {
         filename: file.originalname,
-        path: `uploads/${file.filename}`,
+        path: file.path,
         mimetype: file.mimetype,
       },
     });
@@ -94,7 +93,9 @@ exports.submitManuscript = async (req, res) => {
       address,
       abstract,
       manuscriptFile: file.originalname,
+      submissionId: manuscript._id.toString(),
       submissionDate,
+      currentStatus: "Received",
       ipAddress,
     };
 
@@ -165,7 +166,7 @@ exports.approveManuscript = async (req, res) => {
         doi: manuscript.doi,
         volume: manuscript.volume,
         issueNumber: manuscript.issueNumber,
-        archiveUrl: publicArchiveUrl(),
+        archiveUrl: process.env.PUBLIC_ARCHIVE_URL || "http://localhost:5173/archives",
       }),
     });
 

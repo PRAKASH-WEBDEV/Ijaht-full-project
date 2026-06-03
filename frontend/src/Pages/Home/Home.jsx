@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "./Home.css";
 import Sidebar from "../../component/Sidebar/Sidebar";
 import { CalendarDays, FileText, ArrowRight, BookOpen } from "lucide-react";
-
-const API_URL = "http://localhost:3000";
+import { api, assetUrl } from "../../config/api";
 
 const formatDate = (date) =>
   date
@@ -21,8 +19,8 @@ const Home = () => {
   const [loadingArticles, setLoadingArticles] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`${API_URL}/api/manuscript/archive?limit=3`)
+    api
+      .get("/api/manuscript/archive?limit=3")
       .then((res) => setArticles(Array.isArray(res.data) ? res.data : []))
       .catch((err) => console.error("Latest articles fetch error:", err))
       .finally(() => setLoadingArticles(false));
@@ -65,18 +63,8 @@ const Home = () => {
             <div className="hero-right">
               <div className="stats-card">
                 <div className="stat-box">
-                  <h3>18+</h3>
-                  <p>Years Publishing</p>
-                </div>
-
-                <div className="stat-box">
-                  <h3>260</h3>
-                  <p>i10 Index</p>
-                </div>
-
-                <div className="stat-box">
-                  <h3>30+</h3>
-                  <p>Google Scholar H-Index</p>
+                  <h3>50+</h3>
+                  <p>Visitor Count</p>
                 </div>
 
                 <div className="stat-box">
@@ -163,7 +151,7 @@ const Home = () => {
 
                       {article.manuscriptFile?.path && (
                         <a
-                          href={`${API_URL}/${article.manuscriptFile.path}`}
+                          href={assetUrl(article.manuscriptFile.path)}
                           target="_blank"
                           rel="noreferrer"
                           download

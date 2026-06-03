@@ -106,31 +106,26 @@
   color: #fff;
 }
 
-/* ================= METRICS ================= */
+/* ================= COLLABORATION PARTNERS ================= */
 
-.metric-item {
+.collaboration-partners {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid #edf2f7;
+  flex-direction: column;
+  gap: 22px;
 }
 
-.metric-item:last-child {
-  border-bottom: none;
+.collaboration-partner-logo {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
 }
 
-.metric-item span {
-  color: #555;
-  font-size: 14px;
-}
-
-.metric-item strong {
-  color: #003566;
-  font-size: 15px;
-  font-weight: 700;
-  text-align: right;
+.collaboration-partner-logo:hover {
+  transform: scale(1.03);
 }
 
 /* ================= NEWSLETTER ================= */
@@ -246,12 +241,8 @@
     padding: 14px 16px;
   }
 
-  .metric-item {
-    align-items: center;
-  }
-
-  .metric-item strong {
-    text-align: right;
+  .collaboration-partners {
+    gap: 20px;
   }
 }
 
@@ -276,14 +267,8 @@
     border-radius: 10px;
   }
 
-  .metric-item {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .metric-item strong {
-    text-align: left;
+  .collaboration-partners {
+    gap: 18px;
   }
 
   .newsletter-box input,

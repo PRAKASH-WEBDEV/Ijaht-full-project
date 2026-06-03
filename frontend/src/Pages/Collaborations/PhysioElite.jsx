@@ -1,5 +1,6 @@
 import React from "react";
 import JournalPageLayout from "../JournalPage/JournalPageLayout";
+import CollaborationPartners from "./CollaborationPartners";
 
 const PhysioElite = () => (
   <JournalPageLayout title="Physio Elite Collaboration" section="Collaborations">
@@ -45,6 +46,8 @@ const PhysioElite = () => (
       clinical evidence discussions, and collaborative publication activities
       that encourage rigorous reporting in rehabilitation sciences.
     </p>
+
+    <CollaborationPartners />
   </JournalPageLayout>
 );
 

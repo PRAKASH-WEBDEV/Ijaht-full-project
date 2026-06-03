@@ -1,5 +1,6 @@
 import React from "react";
 import JournalPageLayout from "../JournalPage/JournalPageLayout";
+import CollaborationPartners from "./CollaborationPartners";
 
 const IHFA = () => (
   <JournalPageLayout title="IHFA Collaboration" section="Collaborations">
@@ -45,6 +46,8 @@ const IHFA = () => (
       collections, reviewer orientation activities, and publication guidance
       sessions for early-career researchers.
     </p>
+
+    <CollaborationPartners />
   </JournalPageLayout>
 );
 

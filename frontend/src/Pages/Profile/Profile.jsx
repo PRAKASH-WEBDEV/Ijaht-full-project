@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "./Profile.css";
+import { api, assetUrl } from "../../config/api";
 
 const Profile = () => {
   const [user, setUser] = useState({});
@@ -9,8 +9,8 @@ const Profile = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios
-      .get("http://localhost:3000/api/user/profile", {
+    api
+      .get("/api/user/profile", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -36,7 +36,7 @@ const Profile = () => {
     setUploading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.post("http://localhost:3000/api/user/upload-avatar", formData, {
+      const res = await api.post("/api/user/upload-avatar", formData, {
         headers: { 
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data" 
@@ -68,7 +68,7 @@ const Profile = () => {
     }
 
     try {
-      const res = await axios.put("http://localhost:3000/api/user/profile", dataToSend, {
+      const res = await api.put("/api/user/profile", dataToSend, {
         headers: { Authorization: `Bearer ${token}` },
       });
       
@@ -90,7 +90,7 @@ const Profile = () => {
         <div className="profile-header">
           <div className="avatar-section">
             <img 
-              src={user.avatar ? `http://localhost:3000/${user.avatar}` : `https://ui-avatars.com/api/?name=${user.firstName || 'User'}&background=0056b3&color=fff`} 
+              src={user.avatar ? assetUrl(user.avatar) : `https://ui-avatars.com/api/?name=${user.firstName || 'User'}&background=0056b3&color=fff`} 
               alt="Profile" 
               className={uploading ? "blur" : ""}
             />

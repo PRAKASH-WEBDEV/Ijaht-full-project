@@ -11,6 +11,9 @@ import {
 import "./Sidebar.css";
 import copyrightFormPdf from "../../assets/copyright-pdf.pdf";
 import subscriptionFormPdf from "../../assets/Subscription -pdf.pdf";
+import physioEliteLogo from "../../assets/collab/Collab-logo-01.jpg";
+import ihfaCpdLogo from "../../assets/collab/collab-logo-02.jpeg";
+import { apiFetch } from "../../config/api";
 
 const Sidebar = () => {
   const { pathname } = useLocation();
@@ -35,7 +38,7 @@ const Sidebar = () => {
     setIsSubscribing(true);
 
     try {
-      const response = await fetch("http://localhost:3000/api/newsletter/subscribe", {
+      const response = await apiFetch("/api/newsletter/subscribe", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -162,28 +165,22 @@ const Sidebar = () => {
         </div>
       )}
 
-      {/* JOURNAL METRICS */}
-      <div className="sidebar-box">
-        <h4>Journal Metrics</h4>
+      {/* COLLABORATION PARTNERS */}
+      <div className="sidebar-box collaboration-partners-box">
+        <h4>Collaboration Partners</h4>
 
-        <div className="metric-item">
-          <span>Impact Factor</span>
-          <strong>3.25 (2024)</strong>
-        </div>
+        <div className="collaboration-partners">
+          <img
+            src={physioEliteLogo}
+            alt="PHYSIOELITE HEALTH & EDUCATION SOCIETY"
+            className="collaboration-partner-logo"
+          />
 
-        <div className="metric-item">
-          <span>CiteScore</span>
-          <strong>4.1</strong>
-        </div>
-
-        <div className="metric-item">
-          <span>H-Index</span>
-          <strong>112</strong>
-        </div>
-
-        <div className="metric-item">
-          <span>Avg. Review Time</span>
-          <strong>18 Days</strong>
+          <img
+            src={ihfaCpdLogo}
+            alt="IHFA + CPD Worldwide"
+            className="collaboration-partner-logo"
+          />
         </div>
       </div>
 

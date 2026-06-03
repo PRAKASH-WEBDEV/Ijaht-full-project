@@ -1,18 +1,13 @@
 const multer = require("multer");
 const fs = require("fs");
-const path = require("path");
 
-const uploadsDir = path.resolve(__dirname, "../../uploads");
-
-fs.mkdirSync(uploadsDir, { recursive: true });
+fs.mkdirSync("uploads", { recursive: true });
 
 const storage = multer.diskStorage({
-  destination: uploadsDir,
+  destination: "uploads/",
   filename: (req, file, cb) => {
-    const safeName = path
-      .basename(file.originalname)
-      .replace(/\s+/g, "-")
-      .replace(/[^a-zA-Z0-9._-]/g, "");
+    // Replace spaces with dashes to prevent URL issues
+    const safeName = file.originalname.replace(/\s+/g, '-');
     cb(null, Date.now() + "-" + safeName);
   },
 });

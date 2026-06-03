@@ -5,6 +5,7 @@ import ProfileDropdown from "../../Pages/Profile/ProfileDropdown";
 import "./Navbar.css";
 import copyrightFormPdf from "../../assets/copyright-pdf.pdf";
 import subscriptionFormPdf from "../../assets/Subscription -pdf.pdf";
+import { assetUrl } from "../../config/api";
 
 const menuItems = [
   {
@@ -192,7 +193,7 @@ const Navbar = ({ onLoginClick, onRegisterClick }) => {
               <img
                 src={
                   user?.avatar
-                    ? `http://localhost:3000/${user.avatar}`
+                    ? assetUrl(user.avatar)
                     : fallbackAvatar
                 }
                 alt=""
@@ -239,7 +240,7 @@ const Navbar = ({ onLoginClick, onRegisterClick }) => {
             <img
               src={
                 user?.avatar
-                  ? `http://localhost:3000/${user.avatar}`
+                  ? assetUrl(user.avatar)
                   : fallbackAvatar
               }
               alt=""

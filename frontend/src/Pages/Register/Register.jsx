@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "../Login/Login.css";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { Eye, EyeOff } from "lucide-react";
+import { api } from "../../config/api";
 
 const RegisterPopup = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const RegisterPopup = ({ isOpen, onClose }) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   if (!isOpen) return null;
 
@@ -28,7 +30,7 @@ const RegisterPopup = ({ isOpen, onClose }) => {
     setError("");
 
     try {
-      await axios.post("http://localhost:3000/api/auth/register", formData);
+      await api.post("/api/auth/register", formData);
       setLoading(false);
       onClose(); // close after success
       toast.success("Registration successful. Please login.");
@@ -75,13 +77,23 @@ const RegisterPopup = ({ isOpen, onClose }) => {
 
           <div className="input-group">
             <label>Password</label>
-            <input
-              name="password"
-              type="password"
-              required
-              placeholder="••••••••"
-              onChange={handleChange}
-            />
+            <div className="password-field">
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                required
+                placeholder="••••••••"
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword((visible) => !visible)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           {error && <p className="error-text">{error}</p>}

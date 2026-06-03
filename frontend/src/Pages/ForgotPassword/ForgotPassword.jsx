@@ -1,73 +1,46 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "../Login/Login.css";
+import { api } from "../../config/api";
 
-const ForgotPasswordPopup = ({ isOpen, onClose }) => {
+const ForgotPasswordPopup = ({ isOpen, onClose, onBackToLogin }) => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   if (!isOpen) return null;
 
-  const sendOTP = async () => {
+  const requestResetLink = async () => {
     try {
       setLoading(true);
       setError("");
-      await axios.post("http://localhost:3000/api/auth/forgot-password", {
+      await api.post("/api/auth/forgot-password", {
         email,
       });
       setStep(2);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to send OTP");
+      setError(err.response?.data?.message || "Failed to send reset link");
     } finally {
       setLoading(false);
     }
   };
 
-  const verifyOTP = async () => {
-    try {
-      setLoading(true);
-      setError("");
-      await axios.post("http://localhost:3000/api/auth/verify-otp", {
-        email,
-        otp,
-      });
-      setStep(3);
-    } catch (err) {
-      setError(err.response?.data?.message || "Invalid OTP");
-    } finally {
-      setLoading(false);
-    }
+  const closeAndReset = () => {
+    onClose();
+    setStep(1);
+    setEmail("");
+    setError("");
   };
 
-  const resetPassword = async () => {
-    try {
-      setLoading(true);
-      setError("");
-      await axios.post("http://localhost:3000/api/auth/reset-password", {
-        email,
-        newPassword: password,
-      });
-      alert("Password reset successful");
-      onClose();
-      setStep(1);
-      setEmail("");
-      setOtp("");
-      setPassword("");
-    } catch (err) {
-      setError(err.response?.data?.message || "Reset failed");
-    } finally {
-      setLoading(false);
-    }
+  const backToLogin = () => {
+    closeAndReset();
+    onBackToLogin?.();
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={closeAndReset}>
       <div className="login-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}>
+        <button className="close-btn" onClick={closeAndReset}>
           &times;
         </button>
 
@@ -75,13 +48,11 @@ const ForgotPasswordPopup = ({ isOpen, onClose }) => {
           <span className="blue-bar-small"></span>
           <h2>
             {step === 1 && "Forgot Password"}
-            {step === 2 && "Verify OTP"}
-            {step === 3 && "Create New Password"}
+            {step === 2 && "Check Your Email"}
           </h2>
           <p>
             {step === 1 && "Enter your registered email"}
-            {step === 2 && "Enter the OTP sent to your email"}
-            {step === 3 && "Set your new password"}
+            {step === 2 && "A password reset link has been sent if the email is valid."}
           </p>
         </div>
 
@@ -97,49 +68,24 @@ const ForgotPasswordPopup = ({ isOpen, onClose }) => {
             />
             <button
               className="login-submit-btn"
-              onClick={sendOTP}
+              onClick={requestResetLink}
               disabled={loading}
             >
-              {loading ? "Sending..." : "Send OTP"}
+              {loading ? "Sending..." : "Send Reset Link"}
             </button>
           </>
         )}
 
-        {/* STEP 2 */}
         {step === 2 && (
           <>
-            <input
-              className="login-input"
-              placeholder="Enter OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-            />
+            <p className="success-text">
+              Please open the reset link from your email to create a new password.
+            </p>
             <button
               className="login-submit-btn"
-              onClick={verifyOTP}
-              disabled={loading}
+              onClick={backToLogin}
             >
-              {loading ? "Verifying..." : "Verify OTP"}
-            </button>
-          </>
-        )}
-
-        {/* STEP 3 */}
-        {step === 3 && (
-          <>
-            <input
-              className="login-input"
-              type="password"
-              placeholder="New Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-              className="login-submit-btn"
-              onClick={resetPassword}
-              disabled={loading}
-            >
-              {loading ? "Resetting..." : "Reset Password"}
+              Back to Login
             </button>
           </>
         )}

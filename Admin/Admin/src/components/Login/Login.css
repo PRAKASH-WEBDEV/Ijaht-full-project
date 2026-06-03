@@ -78,6 +78,37 @@
   transform: scale(1.02);
 }
 
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.password-field input {
+  padding-right: 44px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #334155;
+  cursor: pointer;
+  font-size: 18px;
+  transform: translateY(-50%);
+}
+
+.password-toggle:hover {
+  color: #1d4ed8;
+}
+
 .login-error {
   background: #ef4444;
   color: white;

@@ -4,7 +4,6 @@ const User = require("../models/user.model");
 const { generateToken } = require("../utils/token.utils");
 const { sendEmail } = require("../utils/email.utils");
 const { createPasswordResetEmail } = require("../utils/emailTemplates");
-const { frontendUrl } = require("../config/env");
 
 const PASSWORD_RESET_EXPIRY_MINUTES = 15;
 
@@ -12,7 +11,8 @@ const hashResetToken = (token) =>
   crypto.createHash("sha256").update(token).digest("hex");
 
 const getFrontendResetUrl = (token) => {
-  return `${frontendUrl()}/reset-password?token=${encodeURIComponent(token)}`;
+  const frontendUrl = (process.env.FRONTEND_URL || "https://ijaht.com").replace(/\/+$/, "");
+  return `${frontendUrl}/reset-password?token=${encodeURIComponent(token)}`;
 };
 
 exports.register = async (req, res) => {
@@ -86,28 +86,14 @@ exports.login = async (req, res) => {
 exports.forgotPassword = async (req, res) => {
   try {
     const email = String(req.body.email || "").trim().toLowerCase();
-    const adminEmail = String(process.env.ADMIN_EMAIL || "").trim().toLowerCase();
 
     if (!email) {
       return res.status(400).json({ message: "Email is required" });
     }
 
-    if (!adminEmail) {
-      console.error("Forgot password admin email not configured");
-      return res.status(500).json({ message: "Password reset is not configured" });
-    }
-
-    const isAdminEmail = email === adminEmail;
-
-    if (!isAdminEmail) {
-      return res.status(403).json({
-        message: "Password reset is available only for the administrator account.",
-      });
-    }
-
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.json({ message: "Password reset link sent to email" });
     }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
@@ -121,7 +107,6 @@ exports.forgotPassword = async (req, res) => {
     await user.save();
 
     const resetUrl = getFrontendResetUrl(resetToken);
-
     await sendEmail({
       to: email,
       subject: "Reset Your IJHAT Password",
@@ -129,6 +114,7 @@ exports.forgotPassword = async (req, res) => {
         resetUrl,
         recipientLabel: "IJHAT user account",
         expiry: `${PASSWORD_RESET_EXPIRY_MINUTES} minutes`,
+        logoUrl: "https://ijaht.com/logo.png",
       }),
     });
 
@@ -147,14 +133,15 @@ exports.forgotPassword = async (req, res) => {
 
 exports.validateResetToken = async (req, res) => {
   try {
-    const { token } = req.body;
+    const token = req.body.token || req.params.token;
 
     if (!token) {
       return res.status(400).json({ message: "Reset token is required" });
     }
 
+    const hashedToken = hashResetToken(token);
     const user = await User.findOne({
-      resetPasswordToken: hashResetToken(token),
+      resetPasswordToken: hashedToken,
       resetPasswordExpire: { $gt: Date.now() },
     }).select("_id");
 
@@ -162,14 +149,28 @@ exports.validateResetToken = async (req, res) => {
       return res.status(400).json({ message: "Reset link is invalid or expired" });
     }
 
-    return res.json({ message: "Reset token is valid" });
+    res.json({ message: "Reset token is valid" });
   } catch (error) {
     console.error("Validate reset token failed:", {
       message: error.message,
       name: error.name,
     });
-    return res.status(500).json({ message: "Reset token validation failed" });
+    res.status(500).json({ message: "Reset token validation failed" });
   }
+};
+
+exports.verifyOTP = async (req, res) => {
+  const { email, otp } = req.body;
+
+  const user = await User.findOne({
+    email,
+    forgotPasswordOTP: otp,
+    forgotPasswordOTPExpiry: { $gt: Date.now() },
+  });
+
+  if (!user) return res.status(400).json({ message: "Invalid or expired OTP" });
+
+  res.json({ message: "OTP verified" });
 };
 
 exports.resetPassword = async (req, res) => {
@@ -183,6 +184,12 @@ exports.resetPassword = async (req, res) => {
 
     if (!newPassword) {
       return res.status(400).json({ message: "New password is required" });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        message: "Password must be at least 6 characters long",
+      });
     }
 
     const hashedToken = hashResetToken(token);

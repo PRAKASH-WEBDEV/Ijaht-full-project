@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -36,10 +36,12 @@ import IssueArchive from "./Pages/Issues/IssueArchive.jsx";
 import Researcher from "./Pages/Researcher/Researcher.jsx";
 import Contact from "./Pages/Contact/Contact.jsx";
 import Profile from "./Pages/Profile/Profile.jsx";
+import ResetPassword from "./Pages/ResetPassword/ResetPassword.jsx";
 // Popups
 import LoginPopup from "./Pages/Login/Login.jsx";
 import RegisterPopup from "./Pages/Register/Register.jsx";
 import ForgotPasswordPopup from "./Pages/ForgotPassword/ForgotPassword.jsx"; // ✅ ADD
+import { ADMIN_URL } from "./config/api";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -51,6 +53,29 @@ function ScrollToTop() {
   return null;
 }
 
+function LoginRedirectHandler({ setIsLoginOpen, setIsRegisterOpen, setIsForgotOpen }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!location.state?.openLogin) return;
+
+    setIsRegisterOpen(false);
+    setIsForgotOpen(false);
+    setIsLoginOpen(true);
+    navigate(location.pathname, { replace: true, state: null });
+  }, [
+    location.pathname,
+    location.state,
+    navigate,
+    setIsForgotOpen,
+    setIsLoginOpen,
+    setIsRegisterOpen,
+  ]);
+
+  return null;
+}
+
 function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -58,16 +83,23 @@ function App() {
 
   function AdminRedirect() {
     useEffect(() => {
-      window.location.href = "http://localhost:8000";
+      if (ADMIN_URL) {
+        window.location.href = ADMIN_URL;
+      }
     }, []);
 
-    return <h2>Redirecting to Admin...</h2>;
+    return <h2>{ADMIN_URL ? "Redirecting to Admin..." : "Admin URL is not configured."}</h2>;
   }
 
   return (
     <Router>
       <div className="App">
         <ScrollToTop />
+        <LoginRedirectHandler
+          setIsLoginOpen={setIsLoginOpen}
+          setIsRegisterOpen={setIsRegisterOpen}
+          setIsForgotOpen={setIsForgotOpen}
+        />
         <Header />
 
         <Navbar
@@ -99,6 +131,7 @@ function App() {
         <ForgotPasswordPopup
           isOpen={isForgotOpen}
           onClose={() => setIsForgotOpen(false)}
+          onBackToLogin={() => setIsLoginOpen(true)}
         />
 
         <RegisterPopup
@@ -147,6 +180,8 @@ function App() {
           <Route path="/researcher" element={<Researcher />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/admin" element={<AdminRedirect />} />
         </Routes>
 
