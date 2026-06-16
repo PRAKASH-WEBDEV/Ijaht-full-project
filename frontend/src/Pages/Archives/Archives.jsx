@@ -36,7 +36,7 @@ const Archives = () => {
           <h2>Published Articles</h2>
         </div>
         <p>
-          Browse peer-reviewed IJHAT articles uploaded and approved by the
+          Browse peer-reviewed IJAHT articles uploaded and approved by the
           editorial office. Newest published records appear first.
         </p>
       </section>

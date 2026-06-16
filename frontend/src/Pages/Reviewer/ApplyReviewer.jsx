@@ -4,7 +4,7 @@ import JournalPageLayout from "../JournalPage/JournalPageLayout";
 const ApplyReviewer = () => (
   <JournalPageLayout title="Apply as Reviewer" section="Reviewer">
     <p>
-      IJHAT welcomes qualified researchers, clinicians, educators, and
+      IJAHT welcomes qualified researchers, clinicians, educators, and
       healthcare professionals who are interested in contributing to rigorous
       peer review. Reviewers play an essential role in maintaining scholarly
       quality and supporting ethical publication decisions.

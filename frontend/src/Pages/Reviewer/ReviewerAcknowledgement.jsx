@@ -4,7 +4,7 @@ import JournalPageLayout from "../JournalPage/JournalPageLayout";
 const ReviewerAcknowledgement = () => (
   <JournalPageLayout title="Reviewer Acknowledgement" section="Reviewer">
     <p>
-      IJHAT recognizes the essential contribution of peer reviewers to
+      IJAHT recognizes the essential contribution of peer reviewers to
       scholarly publishing. Reviewers help protect research integrity, improve
       manuscript quality, and support fair editorial decisions.
     </p>
@@ -30,7 +30,7 @@ const ReviewerAcknowledgement = () => (
 
     <h2>Annual Acknowledgement</h2>
     <p>
-      IJHAT may publish an annual acknowledgement of reviewers who contributed
+      IJAHT may publish an annual acknowledgement of reviewers who contributed
       to the journal during the year, subject to reviewer consent and editorial
       policy.
     </p>

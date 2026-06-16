@@ -5,33 +5,38 @@ const Mission = () => {
   return (
     <AboutPageLayout title="Mission & Vision">
       <p>
-        The International Journal of Applied Healthcare and Technology (IJHAT)
-        exists to support rigorous, useful, and ethically conducted research at
-        the intersection of healthcare practice, biomedical science, clinical
-        innovation, public health, and applied technology. The journal provides
-        an open-access platform for researchers, clinicians, educators, and
-        policy professionals who are working to improve health systems and
-        patient outcomes through evidence-based inquiry.
+        The International Journal of Allied Healthcare and Technology exists to
+        advance rigorous scholarship across allied health, clinical practice,
+        biomedical inquiry, health systems, and applied technology. The journal
+        provides an international platform for research that strengthens patient
+        care, professional practice, public health understanding, and
+        evidence-informed decision-making.
       </p>
 
-      <h2>Our Mission</h2>
       <p>
-        Our mission is to publish peer-reviewed research that contributes
-        meaningfully to scientific understanding and practical healthcare
-        improvement. IJHAT encourages submissions that demonstrate clear
-        methodology, transparent reporting, clinical or technological relevance,
-        and respect for research ethics. We aim to make dependable research
-        accessible to readers across institutions, disciplines, and geographic
-        regions.
+        The journal welcomes contributions from allied healthcare disciplines
+        and clinical sciences, including rehabilitation, nursing, physiotherapy,
+        diagnostics, pharmacy, laboratory sciences, community health, medical
+        education, and interdisciplinary clinical research. Submissions should
+        demonstrate relevance to healthcare professionals, institutions, and
+        populations served by contemporary care systems.
       </p>
 
-      <h2>Our Vision</h2>
       <p>
-        IJHAT seeks to become a trusted international forum for applied
-        healthcare scholarship. Our vision is to connect academic research with
-        real-world healthcare implementation, helping authors share work that
-        informs clinical decision-making, strengthens health technology
-        adoption, and supports responsible innovation.
+        IJAHT also encourages scholarship in Artificial Intelligence,
+        Healthcare Technology, Computer Science, Data Science, Digital Health,
+        and Innovation where these fields contribute to safer, smarter, and more
+        effective healthcare delivery. The journal supports research on digital
+        tools, intelligent systems, informatics, health data, and technology-led
+        models of clinical and public health improvement.
+      </p>
+
+      <p>
+        All manuscripts are handled through peer review, ethical editorial
+        practice, and quality-focused assessment. IJAHT is committed to
+        transparent publication standards, responsible research conduct, and
+        global dissemination of work that can create reliable scholarly and
+        practical impact.
       </p>
 
       <div className="about-highlight-grid">

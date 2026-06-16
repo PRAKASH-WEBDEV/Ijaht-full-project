@@ -128,76 +128,6 @@
   transform: scale(1.03);
 }
 
-/* ================= NEWSLETTER ================= */
-
-.newsletter-box {
-  background: linear-gradient(135deg, #0056b3, #0077cc);
-  color: white;
-  text-align: center;
-}
-
-.newsletter-box h4 {
-  color: white;
-}
-
-.newsletter-box h4::after {
-  background: white;
-}
-
-.newsletter-icon {
-  width: 65px;
-  height: 65px;
-  margin: 0 auto 18px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.newsletter-box p {
-  color: #e6eef9;
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.newsletter-box input {
-  width: 100%;
-  margin-top: 15px;
-
-  padding: 13px;
-
-  border: none;
-  outline: none;
-  border-radius: 8px;
-
-  font-size: 14px;
-  box-sizing: border-box;
-}
-
-.newsletter-box button {
-  width: 100%;
-  margin-top: 12px;
-
-  padding: 13px;
-
-  border: none;
-  border-radius: 8px;
-
-  background: #ffcc00;
-  color: #222;
-
-  font-weight: 700;
-  cursor: pointer;
-
-  transition: 0.3s ease;
-}
-
-.newsletter-box button:hover {
-  background: #ffd633;
-  transform: translateY(-2px);
-}
-
 /* ================= TABLET ================= */
 
 @media (max-width: 992px) {
@@ -269,15 +199,5 @@
 
   .collaboration-partners {
     gap: 18px;
-  }
-
-  .newsletter-box input,
-  .newsletter-box button {
-    font-size: 13px;
-  }
-
-  .newsletter-icon {
-    width: 55px;
-    height: 55px;
   }
 }

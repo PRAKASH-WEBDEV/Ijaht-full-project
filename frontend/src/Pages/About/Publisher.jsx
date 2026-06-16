@@ -5,7 +5,7 @@ const Publisher = () => {
   return (
     <AboutPageLayout title="Publisher">
       <p>
-        IJHAT is published with a commitment to responsible academic
+        IJAHT is published with a commitment to responsible academic
         communication, editorial independence, transparent review procedures,
         and open-access dissemination. The publisher supports the journal's
         editorial team by maintaining publication workflows, digital hosting,

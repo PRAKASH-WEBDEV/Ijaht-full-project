@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const dns = require("dns");
 const seedAdmin = require("../../seeds/admin.seed");
 
 const getMongoUri = () => {
@@ -15,7 +16,19 @@ const getMongoUri = () => {
 };
 
 const connectDB = async () => {
-  await mongoose.connect(getMongoUri());
+  const dnsServers = (process.env.MONGO_DNS_SERVERS || "")
+    .split(",")
+    .map((server) => server.trim())
+    .filter(Boolean);
+
+  if (dnsServers.length > 0) {
+    dns.setServers(dnsServers);
+    console.log("MongoDB DNS resolvers configured:", dnsServers);
+  }
+
+  await mongoose.connect(getMongoUri(), {
+    serverSelectionTimeoutMS: Number(process.env.MONGO_SERVER_SELECTION_TIMEOUT_MS || 15000),
+  });
   await seedAdmin();
   console.log("MongoDB Connected");
 };

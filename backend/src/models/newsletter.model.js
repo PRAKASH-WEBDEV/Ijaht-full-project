@@ -11,7 +11,7 @@ const newsletterSchema = new mongoose.Schema(
     },
     source: {
       type: String,
-      default: "IJHAT Website",
+      default: "IJAHT Website",
     },
   },
   { timestamps: true }

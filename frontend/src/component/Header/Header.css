@@ -2,25 +2,26 @@
   background: #fff;
   padding: clamp(16px, 2.6vw, 24px) var(--space-page-x);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: clamp(10px, 1.5vw, 16px);
+  justify-content: space-between;
+  gap: clamp(14px, 2vw, 26px);
   border-bottom: 2px solid var(--color-primary);
 }
 
-.header-centered-logo {
+.header-logo {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   border-radius: 50%;
   overflow: hidden;
+  flex: 0 0 auto;
 }
 
-.header-centered-logo img {
-  width: clamp(86px, 9vw, 124px);
-  height: clamp(86px, 9vw, 124px);
+.header-logo img {
+  width: clamp(98px, 10vw, 138px);
+  height: clamp(98px, 10vw, 138px);
   border-radius: 50%;
   object-fit: cover;
   display: block;
@@ -29,6 +30,7 @@
 .header-content {
   text-align: center;
   width: 100%;
+  min-width: 0;
 }
 
 .header-content h1 {
@@ -40,22 +42,37 @@
   line-height: 1.2;
 }
 
-.header-content h3 {
-  margin-top: 8px;
-  margin-bottom: 5px;
-  color: #8bb600;
-  font-size: clamp(15px, 1.4vw, 18px);
-  font-weight: 600;
-}
-
 .header-content p {
-  margin: 0;
+  margin: 8px 0 0;
   color: #8bb600;
-  font-size: clamp(14px, 1.2vw, 16px);
+  font-size: clamp(14px, 1.35vw, 17px);
   font-weight: 600;
 }
 
-/* Tablet */
+.header-social {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.header-social a {
+  align-items: center;
+  background: #0056b3;
+  border-radius: 6px;
+  color: #fff;
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  width: 36px;
+}
+
+.header-social a:hover {
+  background: #003d80;
+  color: #fff;
+}
 
 @media (max-width: 992px) {
   .journal-header {
@@ -67,8 +84,15 @@
 
 @media (max-width: 768px) {
   .journal-header {
+    flex-wrap: wrap;
+    justify-content: center;
     text-align: center;
     gap: 12px;
+  }
+
+  .header-content {
+    order: 3;
+    flex-basis: 100%;
   }
 }
 
@@ -77,8 +101,12 @@
     font-size: 22px;
   }
 
-  .header-content h3,
   .header-content p {
     font-size: 13px;
+  }
+
+  .header-social a {
+    height: 32px;
+    width: 32px;
   }
 }

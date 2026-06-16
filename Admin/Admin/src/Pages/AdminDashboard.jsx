@@ -191,7 +191,7 @@ const AdminDashboard = () => {
         <div className="brand-block">
           <div className="brand-mark">IJ</div>
           <div>
-            <h1>IJHAT</h1>
+            <h1>IJAHT</h1>
             <p>Editorial Admin</p>
           </div>
         </div>

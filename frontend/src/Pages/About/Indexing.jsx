@@ -5,7 +5,7 @@ const Indexing = () => {
   return (
     <AboutPageLayout title="Abstracting & Indexing">
       <p>
-        IJHAT is committed to improving the visibility, discoverability, and
+        IJAHT is committed to improving the visibility, discoverability, and
         long-term accessibility of published research. Abstracting and indexing
         services are essential to scholarly communication because they help
         researchers locate relevant work, track citations, and assess the
@@ -23,7 +23,7 @@ const Indexing = () => {
 
       <h2>Indexing Development</h2>
       <p>
-        IJHAT continues to work toward inclusion in appropriate abstracting and
+        IJAHT continues to work toward inclusion in appropriate abstracting and
         indexing databases that align with the journal's academic scope and
         publication standards. Applications to indexing services are pursued in
         accordance with each database's selection criteria, including editorial

@@ -7,7 +7,7 @@ const PhysioElite = () => (
     <p>
       The Physio Elite collaboration focuses on strengthening the connection
       between rehabilitation science, physiotherapy practice, clinical
-      education, and applied healthcare research. It supports IJHAT's aim to
+      education, and applied healthcare research. It supports IJAHT's aim to
       publish research that has practical value for healthcare professionals
       and patient-centered care.
     </p>
@@ -42,7 +42,7 @@ const PhysioElite = () => (
 
     <h2>Future Initiatives</h2>
     <p>
-      IJHAT and Physio Elite plan to support research literacy sessions,
+      IJAHT and Physio Elite plan to support research literacy sessions,
       clinical evidence discussions, and collaborative publication activities
       that encourage rigorous reporting in rehabilitation sciences.
     </p>

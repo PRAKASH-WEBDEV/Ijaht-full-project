@@ -5,7 +5,7 @@ import CollaborationPartners from "./CollaborationPartners";
 const IHFA = () => (
   <JournalPageLayout title="IHFA Collaboration" section="Collaborations">
     <p>
-      The IHFA collaboration supports IJHAT's commitment to connecting applied
+      The IHFA collaboration supports IJAHT's commitment to connecting applied
       healthcare research with professional communities, clinical practice, and
       interdisciplinary education. The partnership encourages knowledge
       exchange between researchers, healthcare practitioners, and institutions
@@ -14,7 +14,7 @@ const IHFA = () => (
 
     <h2>Collaboration Overview</h2>
     <p>
-      Through this collaboration, IJHAT promotes scholarly communication,
+      Through this collaboration, IJAHT promotes scholarly communication,
       evidence-based practice, and academic engagement in healthcare and allied
       health fields. The relationship is intended to strengthen research
       visibility and create opportunities for professional dialogue.

@@ -36,7 +36,7 @@ const IssueArchive = () => {
   return (
     <JournalPageLayout title="Archive" section="Issues">
       <p>
-        The archive provides access to previous IJHAT published articles using
+        The archive provides access to previous IJAHT published articles using
         real approved records from the editorial database.
       </p>
 

@@ -12,9 +12,9 @@ const fallback = (value, defaultValue = "Not provided") =>
   value === undefined || value === null || value === "" ? defaultValue : value;
 
 const journal = {
-  name: "International Journal of Applied Healthcare and Technology",
+  name: "International Journal of Allied Healthcare and Technology",
   shortName: "IJAHT",
-  tagline: "Peer-reviewed open access journal for healthcare and technology research",
+  tagline: "Rigorous Research. Reliable Insights. Real Impact.",
   websiteUrl: "https://ijaht.com/",
   email: "journal@ijaht.com",
   primary: "#0056b3",
@@ -25,7 +25,7 @@ const getFrontendUrl = () => (process.env.FRONTEND_URL || "https://ijaht.com/").
 const renderBrandBlock = (align = "left") => `
   <div style="font-family:Arial,Helvetica,sans-serif;text-align:${align};">
     <div style="color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:23px;line-height:1.15;font-weight:800;letter-spacing:.8px;">IJAHT</div>
-    <div style="margin-top:6px;color:#e8f7ff;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.45;font-weight:600;">International Journal of Applied Healthcare and Technology</div>
+    <div style="margin-top:6px;color:#e8f7ff;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.45;font-weight:600;">International Journal of Allied Healthcare and Technology</div>
   </div>
 `;
 

@@ -5,7 +5,7 @@ const Policies = () => {
   return (
     <AboutPageLayout title="Journal Policies">
       <p>
-        IJHAT follows editorial and publication policies that promote research
+        IJAHT follows editorial and publication policies that promote research
         integrity, author accountability, fair peer review, and reliable
         scholarly communication. These policies apply to authors, reviewers,
         editors, and all contributors involved in the publication process.

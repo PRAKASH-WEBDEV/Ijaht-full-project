@@ -48,7 +48,7 @@ const ExpertEditorialSupport = () => {
   return (
     <JournalPageLayout title="Editorial Board" section="Editorial">
       <p>
-        The IJHAT editorial board supports the journal's mission to publish
+        The IJAHT editorial board supports the journal's mission to publish
         reliable, ethical, and practically relevant research in applied
         healthcare and technology. Editorial oversight ensures that manuscripts
         are handled through transparent processes and evaluated according to
@@ -98,6 +98,11 @@ const ExpertEditorialSupport = () => {
         ethical compliance, relevance to the journal scope, reviewer feedback,
         and the overall contribution of the manuscript to healthcare and
         technology research.
+      </div>
+
+      <h2>BOARD MEMBERS</h2>
+      <div className="board-placeholder">
+        Board member profiles will be published soon.
       </div>
     </JournalPageLayout>
   );

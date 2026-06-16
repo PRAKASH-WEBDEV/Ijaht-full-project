@@ -5,7 +5,7 @@ const WhyPublish = () => {
   return (
     <AboutPageLayout title="Why Publish With Us">
       <p>
-        Publishing with IJHAT gives authors a focused venue for work that
+        Publishing with IJAHT gives authors a focused venue for work that
         connects healthcare research with applied technology and practice. The
         journal is designed for researchers who want their findings to be
         accessible, carefully reviewed, and presented in a professional academic
@@ -38,7 +38,7 @@ const WhyPublish = () => {
 
       <h2>Scope for Applied Impact</h2>
       <p>
-        IJHAT welcomes original research articles, review articles, clinical
+        IJAHT welcomes original research articles, review articles, clinical
         studies, technology evaluations, case-based insights, methodological
         papers, and interdisciplinary work. We are especially interested in
         manuscripts that present clear evidence and explain how the findings can

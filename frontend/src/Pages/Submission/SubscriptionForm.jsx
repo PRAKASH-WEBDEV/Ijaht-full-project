@@ -5,7 +5,7 @@ import subscriptionFormPdf from "../../assets/Subscription -pdf.pdf";
 const SubscriptionForm = () => (
   <JournalPageLayout title="Subscription Form" section="Manuscript Submission">
     <p>
-      IJHAT is an open-access journal, but readers, libraries, departments, and
+      IJAHT is an open-access journal, but readers, libraries, departments, and
       institutions may subscribe to receive publication updates, issue alerts,
       calls for papers, and editorial announcements.
     </p>
@@ -32,7 +32,7 @@ const SubscriptionForm = () => (
     <a
       className="journal-download-btn"
       href={subscriptionFormPdf}
-      download="IJHAT-Subscription-Form.pdf"
+      download="IJAHT-Subscription-Form.pdf"
     >
       Download Subscription Form
     </a>

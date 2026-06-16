@@ -96,7 +96,7 @@ const ResetPassword = () => {
         <div className="login-card">
           <div className="login-header">
             <h1>Reset Password</h1>
-            <p>Create a new IJHAT admin dashboard password</p>
+            <p>Create a new IJAHT admin dashboard password</p>
           </div>
 
           {validating && <div className="login-success">Validating reset link...</div>}

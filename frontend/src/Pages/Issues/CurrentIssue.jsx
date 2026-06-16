@@ -43,7 +43,7 @@ const CurrentIssue = () => {
       </div>
 
       <p>
-        The current issue presents the latest approved IJHAT articles from the
+        The current issue presents the latest approved IJAHT articles from the
         editorial database.
       </p>
 

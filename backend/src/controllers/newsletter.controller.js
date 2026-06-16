@@ -10,7 +10,7 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 exports.subscribeNewsletter = async (req, res) => {
   try {
     const email = String(req.body.email || "").trim().toLowerCase();
-    const source = req.body.source || "IJHAT Website";
+    const source = req.body.source || "IJAHT Website";
 
     if (!emailPattern.test(email)) {
       return res.status(400).json({ message: "Please enter a valid email address" });

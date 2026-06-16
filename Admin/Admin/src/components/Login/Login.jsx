@@ -80,7 +80,7 @@ const Login = () => {
 
           <div className="login-header">
 
-            <h1>IJHAT Admin</h1>
+            <h1>IJAHT Admin</h1>
             <p>Research Journal Control Panel</p>
 
           </div>

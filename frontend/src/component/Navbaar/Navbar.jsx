@@ -46,12 +46,12 @@ const menuItems = [
       {
         title: "Copyright Form",
         download: copyrightFormPdf,
-        fileName: "IJHAT-Copyright-Form.pdf",
+        fileName: "IJAHT-Copyright-Form.pdf",
       },
       {
         title: "Subscription Form",
         download: subscriptionFormPdf,
-        fileName: "IJHAT-Subscription-Form.pdf",
+        fileName: "IJAHT-Subscription-Form.pdf",
       },
     ],
   },

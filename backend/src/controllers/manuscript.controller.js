@@ -14,6 +14,8 @@ const manuscriptMimeTypes = new Set([
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ]);
 
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const createManuscriptAttachment = async (file) => {
   if (!file || !manuscriptMimeTypes.has(file.mimetype)) {
     throw new Error("Invalid manuscript file type. Only PDF, DOC, and DOCX files are allowed.");
@@ -31,6 +33,7 @@ const createManuscriptAttachment = async (file) => {
   return {
     filename,
     content: fileBuffer.toString("base64"),
+    encoding: "base64",
   };
 };
 
@@ -49,6 +52,7 @@ exports.submitManuscript = async (req, res) => {
       institution = "",
     } = req.body;
     const file = req.file;
+    const normalizedEmail = String(email || "").trim().toLowerCase();
     const submissionDate = new Date().toLocaleString("en-IN", {
       dateStyle: "medium",
       timeStyle: "short",
@@ -58,6 +62,14 @@ exports.submitManuscript = async (req, res) => {
       req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
       req.socket?.remoteAddress ||
       "";
+
+    if (!articleTitle || !authorName || !normalizedEmail || !address || !abstract) {
+      return res.status(400).json({ message: "All required manuscript fields must be filled" });
+    }
+
+    if (!emailPattern.test(normalizedEmail)) {
+      return res.status(400).json({ message: "Please enter a valid email address" });
+    }
 
     if (!file) {
       return res.status(400).json({ message: "Manuscript file required" });
@@ -70,7 +82,7 @@ exports.submitManuscript = async (req, res) => {
     const manuscript = await Manuscript.create({
       articleTitle,
       authorName,
-      email,
+      email: normalizedEmail,
       address,
       abstract,
       status: "pending",
@@ -84,7 +96,7 @@ exports.submitManuscript = async (req, res) => {
     const formData = {
       ...req.body,
       fullName: authorName,
-      email,
+      email: normalizedEmail,
       phone,
       country,
       institution,
@@ -101,7 +113,7 @@ exports.submitManuscript = async (req, res) => {
 
     if (process.env.SEND_USER_CONFIRMATION !== "false") {
       await sendEmail({
-        to: email,
+        to: normalizedEmail,
         subject: "Thank You For Your Submission",
         html: getUserThankYouTemplate(formData),
       });
@@ -159,7 +171,7 @@ exports.approveManuscript = async (req, res) => {
 
     await sendEmail({
       to: manuscript.email,
-      subject: "IJHAT Manuscript Accepted",
+      subject: "IJAHT Manuscript Accepted",
       html: createManuscriptAcceptedEmail({
         authorName: manuscript.authorName,
         articleTitle: manuscript.articleTitle,
@@ -191,7 +203,7 @@ exports.rejectManuscript = async (req, res) => {
 
     await sendEmail({
       to: manuscript.email,
-      subject: "IJHAT Manuscript Decision",
+      subject: "IJAHT Manuscript Decision",
       html: createManuscriptRejectedEmail({
         authorName: manuscript.authorName,
         articleTitle: manuscript.articleTitle,

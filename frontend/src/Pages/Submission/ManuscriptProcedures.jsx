@@ -4,7 +4,7 @@ import JournalPageLayout from "../JournalPage/JournalPageLayout";
 const ManuscriptProcedures = () => (
   <JournalPageLayout title="Manuscript Procedures" section="Manuscript Submission">
     <p>
-      IJHAT follows a structured editorial workflow to ensure fairness,
+      IJAHT follows a structured editorial workflow to ensure fairness,
       transparency, and scholarly quality. Every submission is handled through
       defined stages from initial receipt to final publication decision.
     </p>

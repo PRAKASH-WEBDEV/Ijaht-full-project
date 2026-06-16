@@ -4,6 +4,8 @@ const {
   getUserThankYouTemplate,
 } = require("../utils/emailTemplates");
 
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 exports.submitContact = async (req, res) => {
   try {
     const {
@@ -21,6 +23,12 @@ exports.submitContact = async (req, res) => {
       return res.status(400).json({ message: "All required fields must be filled" });
     }
 
+    const normalizedEmail = String(email).trim().toLowerCase();
+
+    if (!emailPattern.test(normalizedEmail)) {
+      return res.status(400).json({ message: "Please enter a valid email address" });
+    }
+
     const fullName = `${firstName} ${lastName}`.trim();
     const submissionDate = new Date().toLocaleString("en-IN", {
       dateStyle: "medium",
@@ -34,7 +42,7 @@ exports.submitContact = async (req, res) => {
     const formData = {
       ...req.body,
       fullName,
-      email,
+      email: normalizedEmail,
       phone,
       country,
       institution,
@@ -46,7 +54,7 @@ exports.submitContact = async (req, res) => {
 
     if (process.env.SEND_USER_CONFIRMATION !== "false") {
       await sendEmail({
-        to: email,
+        to: normalizedEmail,
         subject: "Thank You For Your Submission",
         html: getUserThankYouTemplate(formData),
       });

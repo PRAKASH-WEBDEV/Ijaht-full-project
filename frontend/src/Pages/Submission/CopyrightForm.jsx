@@ -29,7 +29,7 @@ const CopyrightForm = () => (
     <a
       className="journal-download-btn"
       href={copyrightFormPdf}
-      download="IJHAT-Copyright-Form.pdf"
+      download="IJAHT-Copyright-Form.pdf"
     >
       Download Copyright Form
     </a>

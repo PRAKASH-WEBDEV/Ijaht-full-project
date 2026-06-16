@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
 import Sidebar from "../../component/Sidebar/Sidebar";
-import { CalendarDays, FileText, ArrowRight, BookOpen } from "lucide-react";
+import { CalendarDays, ArrowRight } from "lucide-react";
 import { api, assetUrl } from "../../config/api";
 
 const formatDate = (date) =>
@@ -17,6 +17,7 @@ const formatDate = (date) =>
 const Home = () => {
   const [articles, setArticles] = useState([]);
   const [loadingArticles, setLoadingArticles] = useState(true);
+  const [visitorCount, setVisitorCount] = useState(null);
 
   useEffect(() => {
     api
@@ -26,50 +27,35 @@ const Home = () => {
       .finally(() => setLoadingArticles(false));
   }, []);
 
+  useEffect(() => {
+    const sessionKey = "ijahtVisitorCounted";
+    const hasVisited = sessionStorage.getItem(sessionKey) === "true";
+
+    api
+      .post("/api/visitors", { increment: !hasVisited })
+      .then((res) => {
+        setVisitorCount(Number(res.data?.count) || 0);
+        if (!hasVisited) {
+          sessionStorage.setItem(sessionKey, "true");
+        }
+      })
+      .catch((err) => console.error("Visitor counter error:", err));
+  }, []);
+
   return (
     <>
       <section className="hero">
         <div className="hero-overlay">
           <div className="hero-content">
             <div className="hero-left">
-              <span className="hero-badge">
-                International Peer Reviewed Journal
-              </span>
-
-              <h1>
-                International Journal of Applied Healthcare
-                <span> and Technology</span>
-              </h1>
-
-              <p>
-                A high-impact open access journal dedicated to publishing
-                innovative research in applied healthcare, biomedical sciences,
-                digital health, and technology-driven clinical practice.
-              </p>
-
-              <div className="hero-buttons">
-                <Link to="/submit-manuscript" className="primary-btn">
-                  <FileText size={18} />
-                  Submit Paper
-                </Link>
-
-                <Link to="/issues/current" className="secondary-btn">
-                  <BookOpen size={18} />
-                  Current Issue
-                </Link>
-              </div>
+              <p>Rigorous Research. Reliable Insights. Real Impact.</p>
             </div>
 
             <div className="hero-right">
               <div className="stats-card">
                 <div className="stat-box">
-                  <h3>50+</h3>
+                  <h3>{visitorCount === null ? "..." : visitorCount.toLocaleString("en-IN")}</h3>
                   <p>Visitor Count</p>
-                </div>
-
-                <div className="stat-box">
-                  <h3>Open</h3>
-                  <p>Access Journal</p>
                 </div>
               </div>
             </div>
@@ -86,7 +72,7 @@ const Home = () => {
               </div>
 
               <p>
-                International Journal of Applied Healthcare and Technology is an
+                International Journal of Allied Healthcare and Technology is an
                 international peer reviewed open access journal publishing
                 high-quality original research in applied healthcare,
                 technology, biomedical sciences, and clinical innovation.
@@ -101,9 +87,9 @@ const Home = () => {
 
             <div className="content-card">
               <div className="section-header">
-                <h2>Latest Published Articles</h2>
+                <h2>Current Issues</h2>
 
-                <Link to="/issues/archive" className="view-link">
+                <Link to="/issues/current" className="view-link">
                   View All
                   <ArrowRight size={16} />
                 </Link>

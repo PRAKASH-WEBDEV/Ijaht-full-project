@@ -44,6 +44,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/contact", require("./src/routes/contact.routes"));
 app.use("/api/newsletter", require("./src/routes/newsletter.routes"));
+app.use("/api/visitors", require("./src/routes/visitor.routes"));
 // Manuscript APIs
 app.use("/api/manuscript", require("./src/routes/manuscript.routes"));
 

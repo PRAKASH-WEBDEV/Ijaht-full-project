@@ -70,7 +70,7 @@ const Contact = () => {
             <h2>Get in Touch</h2>
             <p>
               For manuscript queries, editorial communication, publication
-              support, and institutional enquiries, contact the IJHAT editorial
+              support, and institutional enquiries, contact the IJAHT editorial
               office using the details below or submit the online form.
             </p>
 
@@ -103,7 +103,7 @@ const Contact = () => {
                 <span><MapPin size={20} /></span>
                 <div>
                   <h3>Correspondence</h3>
-                  <p>International Journal of Applied Healthcare and Technology<br />Open Access Editorial Office</p>
+                  <p>International Journal of Allied Healthcare and Technology<br />Editorial Office</p>
                 </div>
               </div>
             </div>

@@ -96,7 +96,7 @@ exports.forgotAdminPassword = async (req, res) => {
       }),
     });
     console.log("Admin forgot password: email sent", Boolean(emailResult));
-    console.log("Admin forgot password: Resend response", emailResult);
+    console.log("Admin forgot password: SMTP response", emailResult);
 
     res.json({
       message: "If this admin email exists, a reset link has been sent.",

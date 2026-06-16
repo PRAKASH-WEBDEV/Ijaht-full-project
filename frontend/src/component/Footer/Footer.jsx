@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaFacebookF, FaTwitter } from "react-icons/fa";
 import footerLogo from "../../assets/main-logo.png";
 import "./Footer.css";
 import copyrightFormPdf from "../../assets/copyright-pdf.pdf";
@@ -14,12 +13,12 @@ const authorLinks = [
   {
     title: "Copyright Form",
     download: copyrightFormPdf,
-    fileName: "IJHAT-Copyright-Form.pdf",
+    fileName: "IJAHT-Copyright-Form.pdf",
   },
   {
     title: "Subscription Form",
     download: subscriptionFormPdf,
-    fileName: "IJHAT-Subscription-Form.pdf",
+    fileName: "IJAHT-Subscription-Form.pdf",
   },
 ];
 
@@ -108,7 +107,7 @@ const Footer = () => {
           </div>
 
           <p>
-            International Journal of Applied Healthcare and Technology is a
+            International Journal of Allied Healthcare and Technology is a
             peer-reviewed open-access journal dedicated to advancing healthcare
             research.
           </p>
@@ -207,27 +206,13 @@ const Footer = () => {
 
           <p>Email: editor@ijhat.org</p>
           <p>support@ijhat.org</p>
-          <p>Open Access International Journal</p>
+          <p>Rigorous Research. Reliable Insights. Real Impact.</p>
         </div>
       </div>
 
       <div className="copyright-strip">
         <div className="copyright-text">
-          Copyright &copy; 2026 IJHAT | Powered by <span>EmpowerWeb</span>
-        </div>
-
-        <div className="copyright-social">
-          <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
-            <FaFacebookF />
-          </a>
-
-          <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter">
-            <FaTwitter />
-          </a>
-
-          <Link to="/issues/archive" aria-label="RSS">
-            RSS
-          </Link>
+          Copyright &copy; 2026 IJAHT | Powered by <span>EmpowerWeb</span>
         </div>
       </div>
     </footer>

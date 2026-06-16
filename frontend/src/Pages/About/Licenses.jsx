@@ -5,7 +5,7 @@ const Licenses = () => {
   return (
     <AboutPageLayout title="Licenses">
       <p>
-        IJHAT supports open-access publication to encourage the responsible
+      IJAHT supports open-access publication to encourage the responsible
         sharing and reuse of scholarly work. Licensing terms define how readers,
         authors, institutions, and other users may access, distribute, and cite
         published articles while preserving appropriate credit to the original

@@ -4,7 +4,7 @@ import JournalPageLayout from "../JournalPage/JournalPageLayout";
 const ManuscriptAssistance = () => (
   <JournalPageLayout title="Manuscript Assistance" section="Manuscript Submission">
     <p>
-      IJHAT provides authors with guidance to help prepare manuscripts that are
+      IJAHT provides authors with guidance to help prepare manuscripts that are
       clear, complete, and suitable for academic review. Assistance focuses on
       improving presentation and compliance with journal requirements, while
       preserving the author's responsibility for content accuracy.
