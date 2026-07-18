@@ -19,11 +19,11 @@
 .login-modal {
   background: white;
   width: 100%;
-  max-width: 420px;
-  padding: clamp(26px, 4vw, 38px);
+  max-width: 430px;
+  padding: clamp(26px, 4vw, 40px);
   border-radius: var(--radius-card);
   position: relative;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22);
+  box-shadow: var(--shadow-lg);
   animation: slideDown 0.3s ease-out;
   box-sizing: border-box;
   max-height: 90vh;
@@ -63,12 +63,12 @@
 }
 
 .blue-bar-small {
-  width: 30px;
+  width: 40px;
   height: 4px;
-  background: #0056b3;
+  background: var(--color-primary);
   display: block;
-  margin: 0 auto 12px;
-  border-radius: 2px;
+  margin: 0 auto 14px;
+  border-radius: var(--radius-pill);
 }
 
 .login-header h2 {
@@ -99,20 +99,20 @@
 }
 
 .login-form input {
-  padding: 11px 14px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-field-border);
+  border-radius: var(--radius-sm);
   font-size: 15px;
   font-family: inherit;
-  transition: border-color 0.2s;
+  transition: border-color var(--transition), box-shadow var(--transition);
   box-sizing: border-box;
   width: 100%;
   outline: none;
 }
 
 .login-form input:focus {
-  border-color: #0056b3;
-  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.08);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.12);
 }
 
 .password-field {
@@ -196,21 +196,25 @@
 /* ======= SUBMIT BUTTON ======= */
 .login-submit-btn {
   width: 100%;
-  background: #0056b3;
+  background: var(--color-primary);
   color: white;
   min-height: 46px;
-  padding: 12px;
+  padding: 13px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.25s;
+  box-shadow: 0 3px 10px rgba(0, 86, 179, 0.22);
+  transition: background var(--transition), transform var(--transition),
+    box-shadow var(--transition);
   box-sizing: border-box;
 }
 
 .login-submit-btn:hover:not(:disabled) {
-  background: #003d80;
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 86, 179, 0.3);
 }
 
 .login-submit-btn:disabled {
@@ -240,20 +244,20 @@
 /* ======= SHARED INPUT CLASS (Forgot Password flow) ======= */
 .login-input {
   width: 100%;
-  padding: 11px 14px;
+  padding: 12px 14px;
   margin-bottom: 16px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  border: 1px solid var(--color-field-border);
+  border-radius: var(--radius-sm);
   font-size: 0.95rem;
   font-family: inherit;
   box-sizing: border-box;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 .login-input:focus {
-  border-color: #0056b3;
-  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.08);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.12);
 }
 
 /* ======= RESPONSIVE ======= */

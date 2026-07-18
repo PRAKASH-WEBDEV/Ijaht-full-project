@@ -58,8 +58,16 @@
 
 .about-prose {
   color: #334155;
-  font-size: 16px;
-  line-height: 1.78;
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+
+.about-prose p,
+.about-prose ul,
+.about-prose ol,
+.about-prose > h2,
+.about-prose > h3 {
+  max-width: var(--measure);
 }
 
 .about-prose p {
@@ -99,10 +107,21 @@
 
 .about-highlight-grid section,
 .about-note {
-  background: #f7fbff;
-  border: 1px solid #dceafe;
-  border-radius: 10px;
-  padding: 18px;
+  background: var(--color-primary-tint);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 22px 20px;
+}
+
+.about-highlight-grid section {
+  border-top: 3px solid var(--color-accent);
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.about-highlight-grid section:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .about-note {

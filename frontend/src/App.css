@@ -1,16 +1,82 @@
 :root {
+  /* ---- Brand & ink ---- */
   --color-primary: #0056b3;
   --color-primary-dark: #004494;
-  --color-heading: #003566;
+  --color-primary-soft: #eef4fb;
+  --color-primary-tint: #f7fbff;
+
+  /* Teal accent — used sparingly (eyebrows, small badges, ticks, hover accents) */
+  --color-accent: #0f766e;
+  --color-accent-dark: #0b5c56;
+  --color-accent-soft: #e6f4f1;
+
+  --color-heading: #002f5f;
+  --color-ink: #0f2540;
   --color-text: #334155;
   --color-muted: #64748b;
+  --color-faint: #8a97a8;
+
+  /* ---- Surfaces & lines ---- */
   --color-surface: #ffffff;
-  --color-page: #f5f7fb;
-  --border-soft: #e8edf3;
-  --shadow-card: 0 6px 20px rgba(15, 23, 42, 0.05);
-  --radius-card: 12px;
+  --color-page: #f4f7fb;
+  --border-soft: #e6ecf3;
+  --border-strong: #d3dded;
+  --color-field-border: #cbd5e1;
+
+  /* ---- Semantic ---- */
+  --color-success: #147a4a;
+  --color-success-bg: rgba(20, 122, 74, 0.1);
+  --color-error: #c0293a;
+  --color-error-bg: rgba(192, 41, 58, 0.1);
+
+  /* ---- Elevation ---- */
+  --shadow-sm: 0 1px 2px rgba(15, 37, 64, 0.06);
+  --shadow-card: 0 4px 18px rgba(15, 37, 64, 0.06);
+  --shadow-md: 0 10px 30px rgba(15, 37, 64, 0.08);
+  --shadow-lg: 0 20px 48px rgba(15, 37, 64, 0.14);
+
+  /* ---- Radii ---- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-card: 14px;
+  --radius-pill: 999px;
+
+  /* ---- Motion ---- */
+  --transition-fast: 0.15s ease;
+  --transition: 0.22s ease;
+
+  /* ---- Focus ring ---- */
+  --focus-ring: 0 0 0 3px rgba(0, 86, 179, 0.28);
+
+  /* ---- Spacing scale ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 56px;
   --space-page-x: clamp(14px, 5vw, 72px);
   --space-page-y: clamp(28px, 5vw, 58px);
+  --section-y: clamp(40px, 6vw, 80px);
+
+  /* ---- Typography ---- */
+  --font-sans: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+
+  --text-xs: 0.78rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.2rem, 1.6vw, 1.375rem);
+  --text-2xl: clamp(1.4rem, 2vw, 1.75rem);
+  --text-3xl: clamp(1.8rem, 2.6vw, 2.25rem);
+  --text-4xl: clamp(2.2rem, 4vw, 3.1rem);
+
+  /* Comfortable reading measure for prose */
+  --measure: 72ch;
 }
 
 * {
@@ -19,21 +85,49 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* overflow-x: clip prevents horizontal scroll WITHOUT creating a scroll
+   container, so descendant position:sticky (the nav) keeps working. */
 html,
-body,
+body {
+  min-width: 0;
+  overflow-x: clip;
+}
+
 #root {
   min-width: 0;
-  overflow-x: hidden;
 }
 
 body {
   background: var(--color-page);
   color: var(--color-text);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-heading);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* Editorial serif for display + section headings — academic credibility */
+h1,
+h2 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.005em;
 }
 
 img,
@@ -56,6 +150,10 @@ a {
   touch-action: manipulation;
 }
 
+button {
+  cursor: pointer;
+}
+
 button,
 input,
 textarea,
@@ -63,13 +161,195 @@ select {
   min-height: 44px;
 }
 
+::selection {
+  background: rgba(0, 86, 179, 0.16);
+  color: var(--color-heading);
+}
+
+/* Accessible, consistent keyboard focus */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
 .App {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .main-content {
   min-height: 80vh;
   background-color: #ffffff;
+}
+
+/* =========================================================
+   Shared button system
+   ========================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 12px 22px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition),
+    transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-lg {
+  min-height: 52px;
+  padding: 15px 28px;
+  font-size: 16px;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(0, 86, 179, 0.22);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 86, 179, 0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--border-strong);
+}
+
+.btn-outline:hover {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+/* Light variants for use on dark (navy) surfaces */
+.btn-on-dark {
+  background: #fff;
+  color: var(--color-heading);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+.btn-on-dark:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-outline-light {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   Shared card utility
+   ========================================================= */
+.u-card {
+  background: var(--color-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.u-card-hover {
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.u-card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+
+/* Eyebrow / kicker label */
+.u-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-accent);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   Scroll-reveal (progressive enhancement; see Reveal.jsx)
+   Elements only get .reveal when JS enables it, so content is
+   always visible if JS/IO is unavailable.
+   ========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  body {
+    font-size: 17px;
+  }
 }
 
 @media (max-width: 576px) {

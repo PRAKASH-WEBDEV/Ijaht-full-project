@@ -15,20 +15,21 @@
 }
 
 .action-btn {
-  background: linear-gradient(135deg, #0d9ecf, #0077b6);
+  background: var(--color-primary);
   color: #fff;
   text-decoration: none;
   min-height: 48px;
   padding: 15px 18px;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
   font-size: 15px;
   font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 119, 182, 0.25);
+  transition: background var(--transition), transform var(--transition),
+    box-shadow var(--transition);
+  box-shadow: 0 3px 10px rgba(0, 86, 179, 0.22);
 }
 
 .action-btn span {
@@ -38,10 +39,18 @@
   min-width: 0;
 }
 
+.action-btn svg:last-child {
+  transition: transform var(--transition);
+}
+
 .action-btn:hover {
-  transform: translateY(-3px);
-  background: linear-gradient(135deg, #0284c7, #005f8f);
-  box-shadow: 0 8px 20px rgba(0, 119, 182, 0.35);
+  transform: translateY(-2px);
+  background: var(--color-primary-dark);
+  box-shadow: 0 8px 18px rgba(0, 86, 179, 0.3);
+}
+
+.action-btn:hover svg:last-child {
+  transform: translateX(3px);
 }
 
 /* ================= SIDEBAR BOX ================= */
@@ -57,8 +66,9 @@
 
 .sidebar-box h4 {
   margin: 0 0 18px;
-  font-size: 19px;
-  color: #003566;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-heading);
   position: relative;
   padding-bottom: 12px;
 }
@@ -69,11 +79,11 @@
   bottom: 0;
   left: 0;
 
-  width: 50px;
+  width: 44px;
   height: 3px;
 
-  background: #0d9ecf;
-  border-radius: 20px;
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
 }
 
 /* ================= SIDEBAR NAV SECTIONS ================= */
@@ -96,14 +106,15 @@
 }
 
 .sidebar-nav-section a:hover {
-  background: #eef7ff;
-  color: #0056b3;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
   transform: translateX(3px);
 }
 
 .sidebar-nav-section a.active {
-  background: #0056b3;
+  background: var(--color-primary);
   color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 86, 179, 0.24);
 }
 
 /* ================= COLLABORATION PARTNERS ================= */
@@ -121,11 +132,18 @@
   max-width: 100%;
   height: auto;
   object-fit: contain;
-  transition: transform 0.3s ease;
+  padding: 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: #fff;
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
 }
 
 .collaboration-partner-logo:hover {
-  transform: scale(1.03);
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
 }
 
 /* ================= TABLET ================= */

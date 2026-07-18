@@ -100,6 +100,11 @@ const Navbar = ({ onLoginClick, onRegisterClick }) => {
   const closeMobileMenu = () => {
     setShowMenu(false);
     setOpenDropdown(null);
+    // Drop focus so the desktop dropdown (shown via :hover/:focus-within)
+    // doesn't stay open after navigating through a submenu link.
+    if (typeof document !== "undefined" && document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
   };
 
   const openLogin = () => {

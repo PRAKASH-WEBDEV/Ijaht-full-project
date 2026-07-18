@@ -2,8 +2,7 @@
   max-width: 1180px;
   margin: 0 auto;
   padding: var(--space-page-y) var(--space-page-x);
-  font-family: 'Segoe UI', sans-serif;
-  color: #333;
+  color: var(--color-text);
   box-sizing: border-box;
 }
 
@@ -50,9 +49,9 @@
 
 .section-title h2 {
   font-size: clamp(22px, 2vw, 26px);
-  font-weight: bold;
+  font-weight: 700;
   margin: 0;
-  color: #222;
+  color: var(--color-heading);
 }
 
 .researcher-intro {
@@ -76,26 +75,27 @@
 }
 
 .benefit-card {
-  padding: 22px 20px;
+  padding: 26px 22px;
   background: #ffffff;
-  border: 1px solid #eee;
+  border: 1px solid var(--border-soft);
   border-radius: var(--radius-card);
   text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
+  box-shadow: var(--shadow-sm);
   box-sizing: border-box;
 }
 
 .benefit-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 28px rgba(0, 86, 179, 0.1);
-  border-color: #0056b3;
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
 }
 
 .icon-circle {
-  width: 56px;
-  height: 56px;
-  background: #f0f7ff;
+  width: 60px;
+  height: 60px;
+  background: var(--color-primary-soft);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -135,10 +135,17 @@
   align-items: center;
   gap: 20px;
   padding: 20px 24px;
-  background: #f9f9f9;
-  border-radius: 10px;
-  border-left: 5px solid #0056b3;
+  background: var(--color-primary-tint);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--color-primary);
   box-sizing: border-box;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.resource-item:hover {
+  transform: translateX(3px);
+  box-shadow: var(--shadow-sm);
 }
 
 .res-info {
@@ -180,7 +187,7 @@
 
 /* ======= CTA BOX ======= */
 .cta-box {
-  background: linear-gradient(135deg, #0056b3, #003d80);
+  background: var(--color-heading);
   color: white;
   padding: clamp(28px, 4vw, 42px);
   border-radius: var(--radius-card);
@@ -188,6 +195,7 @@
 }
 
 .cta-box h3 {
+  color: #fff;
   font-size: 1.7rem;
   margin: 0 0 10px;
   line-height: 1.3;

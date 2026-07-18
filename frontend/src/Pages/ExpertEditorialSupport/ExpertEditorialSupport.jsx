@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import JournalPageLayout from "../JournalPage/JournalPageLayout";
+import { api, assetUrl } from "../../config/api";
 import "./ExpertEditorial.css";
 
 const editorialServices = [
@@ -44,7 +45,28 @@ const processSteps = [
   },
 ];
 
+// Build initials for members without a photo.
+const getInitials = (name = "") =>
+  name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+
 const ExpertEditorialSupport = () => {
+  const [boardMembers, setBoardMembers] = useState([]);
+  const [loadingMembers, setLoadingMembers] = useState(true);
+
+  useEffect(() => {
+    api
+      .get("/api/board-members")
+      .then((res) => setBoardMembers(Array.isArray(res.data) ? res.data : []))
+      .catch((err) => console.error("Board members fetch error:", err))
+      .finally(() => setLoadingMembers(false));
+  }, []);
+
   return (
     <JournalPageLayout title="Editorial Board" section="Editorial">
       <p>
@@ -100,10 +122,47 @@ const ExpertEditorialSupport = () => {
         technology research.
       </div>
 
-      <h2>BOARD MEMBERS</h2>
-      <div className="board-placeholder">
-        Board member profiles will be published soon.
-      </div>
+      <h2>Board Members</h2>
+
+      {loadingMembers ? (
+        <div className="board-placeholder">Loading board members...</div>
+      ) : boardMembers.length === 0 ? (
+        <div className="board-placeholder">
+          Board member profiles will be published soon.
+        </div>
+      ) : (
+        <div className="board-member-grid">
+          {boardMembers.map((member) => (
+            <section className="board-member-card" key={member._id}>
+              <div className="board-member-photo">
+                {member.photo?.path ? (
+                  <img src={assetUrl(member.photo.path)} alt={member.name} />
+                ) : (
+                  <span className="board-member-initials">
+                    {getInitials(member.name)}
+                  </span>
+                )}
+              </div>
+
+              <h3>{member.name}</h3>
+
+              {member.designation && (
+                <p className="board-member-designation">{member.designation}</p>
+              )}
+
+              {member.qualification && (
+                <p className="board-member-qualification">
+                  {member.qualification}
+                </p>
+              )}
+
+              {member.affiliation && (
+                <p className="board-member-affiliation">{member.affiliation}</p>
+              )}
+            </section>
+          ))}
+        </div>
+      )}
     </JournalPageLayout>
   );
 };

@@ -2,7 +2,7 @@
   max-width: 1180px;
   margin: 0 auto;
   padding: var(--space-page-y) var(--space-page-x);
-  font-family: 'Segoe UI', sans-serif;
+  color: var(--color-text);
   box-sizing: border-box;
 }
 
@@ -60,9 +60,9 @@
 
 .section-title h2 {
   font-size: clamp(22px, 2vw, 26px);
-  font-weight: bold;
+  font-weight: 700;
   margin: 0;
-  color: #222;
+  color: var(--color-heading);
 }
 
 /* Year Heading */
@@ -71,13 +71,14 @@
 }
 
 .year-heading {
-  background-color: #f0f6ff;
-  color: #0056b3;
-  padding: 10px 20px;
-  border-left: 5px solid #0056b3;
-  font-size: 1.3rem;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+  padding: 12px 20px;
+  border-left: 4px solid var(--color-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
   margin: 36px 0 18px;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
 /* Grid */
@@ -92,11 +93,12 @@
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
   padding: 20px;
   background: #fff;
-  transition: all 0.3s ease;
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
   box-sizing: border-box;
 }
 
@@ -147,8 +149,8 @@
 }
 
 .archive-card:hover {
-  border-color: #0056b3;
-  box-shadow: 0 4px 16px rgba(0, 86, 179, 0.1);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
   transform: translateY(-3px);
 }
 

@@ -1,34 +1,26 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import footerLogo from "../../assets/main-logo.png";
 import "./Footer.css";
-import copyrightFormPdf from "../../assets/copyright-pdf.pdf";
-import subscriptionFormPdf from "../../assets/Subscription -pdf.pdf";
 import { apiFetch } from "../../config/api";
 
-const authorLinks = [
-  { title: "Submit Manuscript", path: "/submit-manuscript" },
-  { title: "Instructions for Authors", path: "/submission/instructions-for-authors" },
-  { title: "Manuscript Assistance", path: "/submission/manuscript-assistance" },
+const socialLinks = [
   {
-    title: "Copyright Form",
-    download: copyrightFormPdf,
-    fileName: "IJAHT-Copyright-Form.pdf",
+    label: "Facebook",
+    href: import.meta.env.VITE_SOCIAL_FACEBOOK_URL || "https://facebook.com",
+    icon: <FaFacebookF />,
   },
   {
-    title: "Subscription Form",
-    download: subscriptionFormPdf,
-    fileName: "IJAHT-Subscription-Form.pdf",
+    label: "LinkedIn",
+    href: import.meta.env.VITE_SOCIAL_LINKEDIN_URL || "https://linkedin.com",
+    icon: <FaLinkedinIn />,
   },
-];
-
-const journalLinks = [
-  { title: "Mission & Vision", path: "/about/mission" },
-  { title: "Journal Policies", path: "/about/policies" },
-  { title: "Editorial Board", path: "/editorial-board" },
-  { title: "Current Issue", path: "/issues/current" },
-  { title: "Issue Archive", path: "/issues/archive" },
-  { title: "Contact Us", path: "/contact" },
+  {
+    label: "Instagram",
+    href: import.meta.env.VITE_SOCIAL_INSTAGRAM_URL || "https://instagram.com",
+    icon: <FaInstagram />,
+  },
 ];
 
 const Footer = () => {
@@ -96,123 +88,149 @@ const Footer = () => {
 
   return (
     <footer className="footer">
-      <div className="footer-grid">
-        <div className="footer-about">
-          <h4>About Journal</h4>
-
-          <div className="footer-logo">
-            <Link to="/">
-              <img src={footerLogo} alt="Journal Logo" />
+      <div className="footer-inner">
+        <div className="footer-grid">
+          {/* About */}
+          <div className="footer-col footer-about">
+            <Link to="/" className="footer-logo" aria-label="IJAHT home">
+              <img src={footerLogo} alt="IJAHT logo" />
             </Link>
+
+            <p>
+              The International Journal of Allied Healthcare and Technology is a
+              peer-reviewed, open-access journal dedicated to advancing rigorous
+              healthcare and technology research.
+            </p>
+
+            <ul className="footer-contact-list">
+              <li>
+                <span>Email</span>
+                <a href="mailto:editor@ijhat.org">editor@ijhat.org</a>
+              </li>
+              <li>
+                <span>Support</span>
+                <a href="mailto:support@ijhat.org">support@ijhat.org</a>
+              </li>
+            </ul>
+
+            <div className="footer-social" aria-label="Social media links">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={link.label}
+                >
+                  {link.icon}
+                </a>
+              ))}
+            </div>
           </div>
 
-          <p>
-            International Journal of Allied Healthcare and Technology is a
-            peer-reviewed open-access journal dedicated to advancing healthcare
-            research.
-          </p>
-        </div>
+          {/* Quick Links */}
+          <nav className="footer-col footer-links" aria-label="Quick links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/editorial-board">Editorial Board</Link></li>
+              <li><Link to="/issues/current">Current Issue</Link></li>
+              <li><Link to="/archives">Archives</Link></li>
+              <li><Link to="/about/mission">About the Journal</Link></li>
+            </ul>
+          </nav>
 
-        <div className="footer-form-section">
-          <h4>Online Contact</h4>
+          {/* For Authors */}
+          <nav className="footer-col footer-links" aria-label="Information for authors">
+            <h4>For Authors</h4>
+            <ul>
+              <li>
+                <Link to="/submission/instructions-for-authors">
+                  Instructions for Authors
+                </Link>
+              </li>
+              <li>
+                <Link to="/submission/manuscript-procedures">
+                  Manuscript Procedures
+                </Link>
+              </li>
+              <li><Link to="/submit-manuscript">Submit Manuscript</Link></li>
+              <li><Link to="/reviewer/apply">Apply as Reviewer</Link></li>
+              <li><Link to="/about/policies">Journal Policies</Link></li>
+            </ul>
+          </nav>
 
-          <form onSubmit={handleSubmit}>
-            <div className="footer-name-row">
+          {/* Online Contact form */}
+          <div className="footer-col footer-form-section">
+            <h4>Online Contact</h4>
+
+            <form onSubmit={handleSubmit}>
+              <div className="footer-name-row">
+                <input
+                  type="text"
+                  name="firstName"
+                  placeholder="First Name"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                />
+
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                />
+              </div>
+
               <input
-                type="text"
-                name="firstName"
-                placeholder="First Name"
-                value={formData.firstName}
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                value={formData.email}
                 onChange={handleChange}
                 required
               />
 
               <input
                 type="text"
-                name="lastName"
-                placeholder="Last Name"
-                value={formData.lastName}
+                name="subject"
+                placeholder="Subject"
+                value={formData.subject}
                 onChange={handleChange}
+                required
               />
-            </div>
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+              <textarea
+                rows="4"
+                name="message"
+                placeholder="Your Message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+              />
 
-            <input
-              type="text"
-              name="subject"
-              placeholder="Subject"
-              value={formData.subject}
-              onChange={handleChange}
-              required
-            />
+              {status.message && (
+                <p className={`footer-form-status ${status.type}`}>
+                  {status.message}
+                </p>
+              )}
 
-            <textarea
-              rows="4"
-              name="message"
-              placeholder="Your Message"
-              value={formData.message}
-              onChange={handleChange}
-              required
-            />
-
-            {status.message && (
-              <p className={`footer-form-status ${status.type}`}>
-                {status.message}
-              </p>
-            )}
-
-            <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </button>
-          </form>
+              <button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </button>
+            </form>
+          </div>
         </div>
 
-        <div className="footer-links">
-          <h4>For Authors</h4>
-
-          {authorLinks.map((link) => (
-            link.download ? (
-              <a key={link.title} href={link.download} download={link.fileName}>
-                {link.title}
-              </a>
-            ) : (
-              <Link key={link.path} to={link.path}>
-                {link.title}
-              </Link>
-            )
-          ))}
-        </div>
-
-        <div className="footer-links">
-          <h4>Journal Menu</h4>
-
-          {journalLinks.map((link) => (
-            <Link key={link.path} to={link.path}>
-              {link.title}
-            </Link>
-          ))}
-        </div>
-
-        <div className="footer-contact">
-          <h4>Contact Info</h4>
-
-          <p>Email: editor@ijhat.org</p>
-          <p>support@ijhat.org</p>
-          <p>Rigorous Research. Reliable Insights. Real Impact.</p>
-        </div>
-      </div>
-
-      <div className="copyright-strip">
-        <div className="copyright-text">
-          Copyright &copy; 2026 IJAHT | Powered by <span>EmpowerWeb</span>
+        <div className="copyright-strip">
+          <div className="copyright-text">
+            Copyright &copy; 2026 IJAHT. All rights reserved.
+          </div>
+          <div className="copyright-powered">
+            Powered by <span>EmpowerWeb</span>
+          </div>
         </div>
       </div>
     </footer>

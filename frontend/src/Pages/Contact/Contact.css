@@ -36,10 +36,10 @@
 }
 
 .contact-title p {
-  color: #0056b3;
+  color: var(--color-accent);
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   margin: 0 0 8px;
   text-transform: uppercase;
 }
@@ -162,18 +162,23 @@
 }
 
 .contact-form button {
-  background: #0056b3;
+  background: var(--color-primary);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   color: #fff;
   cursor: pointer;
   font-weight: 700;
   min-height: 46px;
   padding: 13px 18px;
+  box-shadow: 0 3px 10px rgba(0, 86, 179, 0.22);
+  transition: background var(--transition), transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .contact-form button:hover {
-  background: #004494;
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 86, 179, 0.3);
 }
 
 .contact-form button:disabled {

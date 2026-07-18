@@ -47,6 +47,9 @@ app.use("/api/newsletter", require("./src/routes/newsletter.routes"));
 app.use("/api/visitors", require("./src/routes/visitor.routes"));
 // Manuscript APIs
 app.use("/api/manuscript", require("./src/routes/manuscript.routes"));
+// CMS content APIs
+app.use("/api/board-members", require("./src/routes/boardMember.routes"));
+app.use("/api/site-content", require("./src/routes/siteContent.routes"));
 
 // Uploaded files
 app.use("/uploads", express.static("uploads"));

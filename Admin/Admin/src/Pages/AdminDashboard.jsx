@@ -11,6 +11,8 @@ import {
   FaSignOutAlt,
   FaTimes,
   FaTrash,
+  FaUserEdit,
+  FaUsers,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
@@ -214,6 +216,27 @@ const AdminDashboard = () => {
               <strong>{option.key === "all" ? metrics.total : metrics[option.key]}</strong>
             </button>
           ))}
+        </nav>
+
+        <nav className="admin-nav admin-nav-content" aria-label="Content management">
+          <button
+            type="button"
+            onClick={() => navigate("/admin/board-members")}
+          >
+            <span>
+              <FaUsers />
+              Board Members
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/admin/reviewer-content")}
+          >
+            <span>
+              <FaUserEdit />
+              Reviewer Content
+            </span>
+          </button>
         </nav>
 
         <div className="sidebar-panel">
