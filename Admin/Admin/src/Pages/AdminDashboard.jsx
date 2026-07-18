@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  FaAngleLeft,
+  FaAngleRight,
   FaBars,
   FaCheck,
   FaDownload,
@@ -17,6 +19,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
 import { api, assetUrl } from "../config/api";
+import useSidebarCollapse from "../hooks/useSidebarCollapse";
 
 const itemsPerPage = 6;
 

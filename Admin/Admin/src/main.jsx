@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom'; // 1. Import this
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
 import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

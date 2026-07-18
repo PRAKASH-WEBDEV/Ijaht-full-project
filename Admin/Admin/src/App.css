@@ -1,0 +1,220 @@
+/* =========================================================
+   IJAHT Admin — design system foundation
+   Loaded globally via main.jsx (applies to every page incl. login)
+   ========================================================= */
+:root {
+  /* Brand & ink */
+  --color-primary: #0056b3;
+  --color-primary-dark: #004494;
+  --color-primary-soft: #eef4fb;
+  --color-primary-tint: #f7fbff;
+
+  /* Teal accent — used sparingly (active indicators, small highlights) */
+  --color-accent: #0f766e;
+  --color-accent-dark: #0b5c56;
+  --color-accent-soft: #e6f4f1;
+
+  /* Navy sidebar / headings */
+  --color-navy: #0a2547;
+  --color-navy-deep: #071b37;
+  --color-heading: #0f2f55;
+  --color-ink: #172033;
+  --color-text: #344054;
+  --color-muted: #64748b;
+  --color-faint: #8a97a8;
+
+  /* Surfaces & lines */
+  --color-surface: #ffffff;
+  --color-page: #f8fafc;
+  --border-soft: #e6ecf3;
+  --border-strong: #d7e0ec;
+  --color-field-border: #cbd5e1;
+
+  /* Semantic */
+  --color-success: #16803c;
+  --color-success-soft: #e7f6ec;
+  --color-warning: #b7791f;
+  --color-warning-soft: #fff5e0;
+  --color-danger: #c0293a;
+  --color-danger-dark: #a51f2f;
+  --color-danger-soft: #fdecee;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(15, 37, 64, 0.06);
+  --shadow-card: 0 4px 18px rgba(15, 37, 64, 0.06);
+  --shadow-md: 0 10px 28px rgba(15, 47, 85, 0.08);
+  --shadow-lg: 0 24px 60px rgba(9, 25, 45, 0.22);
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-card: 14px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --transition-fast: 0.15s ease;
+  --transition: 0.22s ease;
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px rgba(0, 86, 179, 0.28);
+
+  /* Layout */
+  --sidebar-w: 280px;
+  --sidebar-w-collapsed: 84px;
+
+  /* Type */
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-heading);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: rgba(0, 86, 179, 0.16);
+  color: var(--color-heading);
+}
+
+/* Accessible, consistent keyboard focus */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* =========================================================
+   Shared button system
+   ========================================================= */
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--transition), color var(--transition),
+    border-color var(--transition), transform var(--transition),
+    box-shadow var(--transition), opacity var(--transition);
+}
+
+.ui-btn:disabled,
+.ui-btn[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ui-btn--primary {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 86, 179, 0.22);
+}
+
+.ui-btn--primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 86, 179, 0.3);
+}
+
+.ui-btn--secondary {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+
+.ui-btn--secondary:hover {
+  background: #e2ecf8;
+}
+
+.ui-btn--outline {
+  background: #fff;
+  color: var(--color-text);
+  border-color: var(--border-strong);
+}
+
+.ui-btn--outline:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.ui-btn--danger {
+  background: var(--color-danger);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(192, 41, 58, 0.22);
+}
+
+.ui-btn--danger:hover {
+  background: var(--color-danger-dark);
+  transform: translateY(-1px);
+}
+
+.ui-btn--ghost {
+  background: transparent;
+  color: var(--color-text);
+}
+
+.ui-btn--ghost:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
