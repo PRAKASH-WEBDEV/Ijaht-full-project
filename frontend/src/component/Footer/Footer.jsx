@@ -229,7 +229,14 @@ const Footer = () => {
             Copyright &copy; 2026 IJAHT. All rights reserved.
           </div>
           <div className="copyright-powered">
-            Powered by <span>EmpowerWeb</span>
+            Powered by{" "}
+            <a
+              href="https://evergrowdigital.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>Evergrowdigital</span>
+            </a>
           </div>
         </div>
       </div>

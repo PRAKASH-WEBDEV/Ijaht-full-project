@@ -51,6 +51,7 @@ const AdminDashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
   const [selectedSubmission, setSelectedSubmission] = useState(null);
+  const [pdfSubmission, setPdfSubmission] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -112,6 +113,14 @@ const AdminDashboard = () => {
 
   const latestSubmission = submissions[0];
 
+  const pdfFile = pdfSubmission?.manuscriptFile;
+  const pdfUrl = pdfFile?.path ? assetUrl(pdfFile.path) : "";
+  const pdfPreviewable =
+    !!pdfUrl &&
+    (pdfFile?.mimetype === "application/pdf" ||
+      /\.pdf$/i.test(pdfFile?.path || "") ||
+      /^image\//.test(pdfFile?.mimetype || ""));
+
   const handleStatusChange = (status) => {
     setFilterStatus(status);
     setCurrentPage(1);
@@ -170,6 +179,9 @@ const AdminDashboard = () => {
     setRejectReason("");
     setSelectedSubmission(null);
   };
+
+  const openPdf = (submission) => setPdfSubmission(submission);
+  const closePdf = () => setPdfSubmission(null);
 
   const logout = () => {
     localStorage.removeItem("adminToken");
@@ -355,9 +367,9 @@ const AdminDashboard = () => {
               <table className="submission-table">
                 <thead>
                   <tr>
-                    <th>Manuscript</th>
                     <th>Author</th>
-                    <th>Date</th>
+                    <th>Email</th>
+                    <th>Submission Date</th>
                     <th>Status</th>
                     <th>File</th>
                     <th>Actions</th>
@@ -383,32 +395,33 @@ const AdminDashboard = () => {
                   {!loading &&
                     currentItems.map((submission) => (
                       <tr key={submission._id}>
-                        <td className="title-cell">
-                          <strong>{submission.articleTitle}</strong>
-                          <span>{submission.abstract || "No abstract available"}</span>
+                        <td className="author-cell" data-label="Author">
+                          <strong title={submission.authorName}>
+                            {submission.authorName}
+                          </strong>
                         </td>
-                        <td>
-                          <strong>{submission.authorName}</strong>
-                          <span>{submission.email}</span>
+                        <td className="email-cell" data-label="Email">
+                          <span title={submission.email}>{submission.email}</span>
                         </td>
-                        <td>{formatDate(submission.createdAt)}</td>
-                        <td>
+                        <td data-label="Submission Date">
+                          {formatDate(submission.createdAt)}
+                        </td>
+                        <td data-label="Status">
                           <span className={`status-badge ${submission.status}`}>
                             {statusLabels[submission.status] || "Pending"}
                           </span>
                         </td>
-                        <td>
-                          <a
+                        <td data-label="File">
+                          <button
                             className="file-button"
-                            href={assetUrl(submission.manuscriptFile?.path)}
-                            target="_blank"
-                            rel="noreferrer"
+                            onClick={() => openPdf(submission)}
+                            type="button"
                           >
                             <FaEye />
                             View
-                          </a>
+                          </button>
                         </td>
-                        <td>
+                        <td data-label="Actions">
                           <div className="action-group">
                             {submission.status !== "approved" && (
                               <button
@@ -535,6 +548,84 @@ const AdminDashboard = () => {
           </aside>
         </section>
       </main>
+
+      {pdfSubmission && (
+        <div className="pdf-overlay" onClick={closePdf}>
+          <div
+            className="pdf-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Manuscript preview"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="pdf-modal-header">
+              <div>
+                <h2>Manuscript Preview</h2>
+                {pdfSubmission.articleTitle && <p>{pdfSubmission.articleTitle}</p>}
+              </div>
+              <button
+                className="pdf-close"
+                onClick={closePdf}
+                type="button"
+                aria-label="Close preview"
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <div className="pdf-modal-body">
+              {pdfUrl && pdfPreviewable ? (
+                <iframe title="Manuscript preview" src={pdfUrl} />
+              ) : (
+                <div className="pdf-empty">
+                  {pdfUrl ? (
+                    <>
+                      <FaFileAlt />
+                      <p>This file type can’t be previewed here.</p>
+                      <a
+                        className="ui-btn ui-btn--primary"
+                        href={pdfUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <FaDownload />
+                        Open file
+                      </a>
+                    </>
+                  ) : (
+                    <>
+                      <FaFileAlt />
+                      <p>No manuscript uploaded.</p>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="pdf-modal-footer">
+              {pdfUrl && (
+                <a
+                  className="ui-btn ui-btn--outline"
+                  href={pdfUrl}
+                  download
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FaDownload />
+                  Download
+                </a>
+              )}
+              <button
+                className="ui-btn ui-btn--secondary"
+                onClick={closePdf}
+                type="button"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showModal && (
         <div className="modal-overlay">

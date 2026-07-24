@@ -253,9 +253,19 @@
   font-size: 13px;
 }
 
+.copyright-powered a {
+  text-decoration: none;
+}
+
 .copyright-powered span {
   color: #5eead4;
   font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.copyright-powered a:hover span {
+  color: #99f6e4;
+  text-decoration: underline;
 }
 
 /* ---- Responsive ---- */

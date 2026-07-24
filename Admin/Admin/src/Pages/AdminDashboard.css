@@ -610,15 +610,40 @@
 
 /* ================= TABLE ================= */
 .table-scroll {
-  overflow-x: auto;
   padding: 8px 22px 0;
 }
 
 .submission-table {
   border-collapse: collapse;
-  min-width: 920px;
+  table-layout: fixed;
   width: 100%;
 }
+
+/* Fixed column widths so every column fits — no horizontal scroll */
+.submission-table th:nth-child(1),
+.submission-table td:nth-child(1) {
+  width: 21%;
+} /* Author */
+.submission-table th:nth-child(2),
+.submission-table td:nth-child(2) {
+  width: auto;
+} /* Email (flexible) */
+.submission-table th:nth-child(3),
+.submission-table td:nth-child(3) {
+  width: 140px;
+} /* Submission Date */
+.submission-table th:nth-child(4),
+.submission-table td:nth-child(4) {
+  width: 118px;
+} /* Status */
+.submission-table th:nth-child(5),
+.submission-table td:nth-child(5) {
+  width: 104px;
+} /* File */
+.submission-table th:nth-child(6),
+.submission-table td:nth-child(6) {
+  width: 132px;
+} /* Actions */
 
 .submission-table th {
   background: transparent;
@@ -670,6 +695,24 @@
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+/* Author + email: single line with ellipsis to keep the table tidy */
+.submission-table td.author-cell strong {
+  margin-bottom: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.submission-table td.email-cell span {
+  color: var(--color-text);
+  display: block;
+  font-size: 14px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ================= STATUS BADGES ================= */
@@ -1122,6 +1165,145 @@
   transform: translateY(-1px);
 }
 
+/* ================= PDF PREVIEW MODAL ================= */
+.pdf-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(9, 25, 45, 0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: pdfFade 0.15s ease;
+}
+
+.pdf-modal {
+  display: flex;
+  flex-direction: column;
+  width: min(1000px, 100%);
+  max-height: 95vh;
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: pdfPop 0.2s ease;
+}
+
+.pdf-modal-header {
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 18px 22px;
+}
+
+.pdf-modal-header h2 {
+  color: var(--color-heading);
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.pdf-modal-header p {
+  color: var(--color-muted);
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 4px 0 0;
+}
+
+.pdf-close {
+  align-items: center;
+  background: var(--color-page);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--color-muted);
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 36px;
+  justify-content: center;
+  width: 36px;
+  transition: background var(--transition), border-color var(--transition),
+    color var(--transition);
+}
+
+.pdf-close:hover {
+  background: var(--color-danger-soft);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--color-danger);
+}
+
+.pdf-modal-body {
+  flex: 1 1 auto;
+  height: 80vh;
+  min-height: 200px;
+  background: #eef2f7;
+}
+
+.pdf-modal-body iframe {
+  border: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.pdf-empty {
+  align-items: center;
+  color: var(--color-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.pdf-empty svg {
+  font-size: 36px;
+  opacity: 0.5;
+}
+
+.pdf-empty p {
+  color: var(--color-text);
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.pdf-modal-footer {
+  border-top: 1px solid var(--border-soft);
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 14px 22px;
+}
+
+@keyframes pdfFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pdfPop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* ================= COLLAPSED SIDEBAR (desktop) ================= */
 @media (min-width: 901px) {
   .sidebar-collapse-btn {
@@ -1267,5 +1449,87 @@
   .modal-actions .secondary-action,
   .modal-actions .danger-action {
     width: 100%;
+  }
+}
+
+/* ===== Mobile: stacked cards instead of a table (no horizontal scroll) ===== */
+@media (max-width: 640px) {
+  .submission-table,
+  .submission-table tbody,
+  .submission-table tr,
+  .submission-table td {
+    display: block;
+    width: auto !important;
+  }
+
+  .submission-table thead {
+    display: none;
+  }
+
+  .submission-table tr {
+    background: var(--color-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 12px;
+    padding: 4px 14px;
+  }
+
+  .submission-table tbody tr:hover {
+    background: var(--color-surface);
+  }
+
+  .submission-table td {
+    align-items: center;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 12px 0;
+    text-align: right;
+  }
+
+  .submission-table tr td:last-child {
+    border-bottom: 0;
+  }
+
+  .submission-table td::before {
+    color: var(--color-muted);
+    content: attr(data-label);
+    flex: 0 0 auto;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .submission-table td.author-cell strong,
+  .submission-table td.email-cell span {
+    max-width: 62%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .submission-table .action-group {
+    justify-content: flex-end;
+  }
+
+  /* Full-screen PDF preview on small devices */
+  .pdf-overlay {
+    padding: 0;
+  }
+
+  .pdf-modal {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    border: 0;
+  }
+
+  .pdf-modal-body {
+    height: auto;
   }
 }
