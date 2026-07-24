@@ -4,59 +4,62 @@
    ========================================================= */
 :root {
   /* Brand & ink */
-  --color-primary: #0056b3;
-  --color-primary-dark: #004494;
-  --color-primary-soft: #eef4fb;
-  --color-primary-tint: #f7fbff;
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-primary-soft: #eef2ff;
+  --color-primary-tint: #f6f8ff;
 
   /* Teal accent — used sparingly (active indicators, small highlights) */
-  --color-accent: #0f766e;
-  --color-accent-dark: #0b5c56;
-  --color-accent-soft: #e6f4f1;
+  --color-accent: #2563eb;
+  --color-accent-dark: #1d4ed8;
+  --color-accent-soft: #e7edfd;
 
   /* Navy sidebar / headings */
-  --color-navy: #0a2547;
-  --color-navy-deep: #071b37;
-  --color-heading: #0f2f55;
-  --color-ink: #172033;
-  --color-text: #344054;
+  --color-navy: #0b1220;
+  --color-navy-deep: #070c17;
+  --color-heading: #0f1b2d;
+  --color-ink: #1e293b;
+  --color-text: #475569;
   --color-muted: #64748b;
-  --color-faint: #8a97a8;
+  --color-faint: #94a3b8;
 
   /* Surfaces & lines */
   --color-surface: #ffffff;
-  --color-page: #f8fafc;
-  --border-soft: #e6ecf3;
-  --border-strong: #d7e0ec;
+  --color-page: #f6f8fb;
+  --border-soft: #eaeef3;
+  --border-strong: #dbe2ea;
   --color-field-border: #cbd5e1;
 
   /* Semantic */
-  --color-success: #16803c;
-  --color-success-soft: #e7f6ec;
-  --color-warning: #b7791f;
-  --color-warning-soft: #fff5e0;
-  --color-danger: #c0293a;
-  --color-danger-dark: #a51f2f;
-  --color-danger-soft: #fdecee;
+  --color-success: #15803d;
+  --color-success-solid: #22c55e;
+  --color-success-soft: #e8f8ee;
+  --color-warning: #b45309;
+  --color-warning-solid: #f59e0b;
+  --color-warning-soft: #fef3e2;
+  --color-danger: #dc2626;
+  --color-danger-solid: #ef4444;
+  --color-danger-dark: #b91c1c;
+  --color-danger-soft: #fdecec;
 
-  /* Elevation */
-  --shadow-sm: 0 1px 2px rgba(15, 37, 64, 0.06);
-  --shadow-card: 0 4px 18px rgba(15, 37, 64, 0.06);
-  --shadow-md: 0 10px 28px rgba(15, 47, 85, 0.08);
+  /* Elevation — soft, layered */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.12);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06), 0 14px 34px -14px rgba(15, 23, 42, 0.16);
   --shadow-lg: 0 24px 60px rgba(9, 25, 45, 0.22);
 
   /* Radii */
-  --radius-sm: 8px;
-  --radius-md: 10px;
-  --radius-card: 14px;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-card: 16px;
   --radius-pill: 999px;
 
   /* Motion */
   --transition-fast: 0.15s ease;
-  --transition: 0.22s ease;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Focus ring */
-  --focus-ring: 0 0 0 3px rgba(0, 86, 179, 0.28);
+  --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.25);
 
   /* Layout */
   --sidebar-w: 280px;
@@ -109,7 +112,7 @@ h6 {
 }
 
 ::selection {
-  background: rgba(0, 86, 179, 0.16);
+  background: rgba(37, 99, 235, 0.16);
   color: var(--color-heading);
 }
 
@@ -155,13 +158,13 @@ select:focus-visible {
 .ui-btn--primary {
   background: var(--color-primary);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 86, 179, 0.22);
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2), 0 6px 14px -6px rgba(37, 99, 235, 0.5);
 }
 
 .ui-btn--primary:hover {
   background: var(--color-primary-dark);
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 86, 179, 0.3);
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.25), 0 10px 20px -8px rgba(37, 99, 235, 0.55);
 }
 
 .ui-btn--secondary {
@@ -187,7 +190,7 @@ select:focus-visible {
 .ui-btn--danger {
   background: var(--color-danger);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(192, 41, 58, 0.22);
+  box-shadow: 0 1px 2px rgba(220, 38, 38, 0.2), 0 6px 14px -6px rgba(220, 38, 38, 0.5);
 }
 
 .ui-btn--danger:hover {

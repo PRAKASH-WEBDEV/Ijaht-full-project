@@ -176,6 +176,14 @@ const AdminDashboard = () => {
     navigate("/");
   };
 
+  const getInitials = (name) =>
+    (name || "?")
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part.charAt(0).toUpperCase())
+      .join("") || "?";
+
   const formatDate = (date) =>
     date
       ? new Date(date).toLocaleDateString("en-IN", {
@@ -475,9 +483,14 @@ const AdminDashboard = () => {
 
             {latestSubmission ? (
               <div className="latest-card">
-                <span className={`status-badge ${latestSubmission.status}`}>
-                  {statusLabels[latestSubmission.status] || "Pending"}
-                </span>
+                <div className="latest-head">
+                  <span className="latest-avatar">
+                    {getInitials(latestSubmission.authorName)}
+                  </span>
+                  <span className={`status-badge ${latestSubmission.status}`}>
+                    {statusLabels[latestSubmission.status] || "Pending"}
+                  </span>
+                </div>
                 <h4>{latestSubmission.articleTitle}</h4>
                 <p>{latestSubmission.authorName}</p>
                 <dl>
